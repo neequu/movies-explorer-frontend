@@ -9,7 +9,11 @@ function AuthForm({ children, setDis }) {
     // onSubmit(values);
   };
 
-  console.log(Object.values(error).every((x) => !!x));
+  if (Object.values(error).some((x) => !!x)) {
+    setDis(true);
+  } else {
+    setDis(false);
+  }
 
   return (
     <form className='auth-form' onSubmit={handleSubmit}>

@@ -23,7 +23,7 @@ function AuthPage({ children, heading }) {
 
   const data = getData();
 
-  const [dis, setDis] = useState(false);
+  const [dis, setDis] = useState(true);
 
   return (
     <div className='auth'>

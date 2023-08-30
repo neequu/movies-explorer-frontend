@@ -1,0 +1,7 @@
+.auth-form {
+  display: grid;
+  width: 100%;
+  margin-inline: auto;
+  text-align: left;
+  gap: 0.375rem;
+}

@@ -5,9 +5,6 @@
 
   display: grid;
   gap: 1.875rem;
-
-  max-width: var(--max-width);
-  margin-inline: auto;
 }
 @media screen and (min-width:768px) {
   .search-block {
@@ -20,5 +17,8 @@
   .search-block {
     padding-inline: 4.375rem;
     gap: 1.6875rem;
+    
+    max-width: var(--max-width);
+    margin-inline: auto;
   }
 }

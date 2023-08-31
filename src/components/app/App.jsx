@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Route, Routes } from 'react-router-dom';
 // context
 import { CurrentUserContext } from 'contexts/CurrentUserContext.js';
@@ -14,14 +14,13 @@ import Tech from 'components/tech/Tech.jsx';
 import Student from 'components/student/Student.jsx';
 import Portfolio from 'components/portfolio/Portfolio.jsx';
 import SearchBlock from 'components/search-block/SearchBlock.jsx';
-import MoviesCardList from 'components/movies/card-list/MoviesCardList.jsx';
+import MoviesCardList from 'components/movies-card-list/MoviesCardList.jsx';
 import ShowMore from 'components/show-more/ShowMore.jsx';
 import NotFound from 'components/not-found/NotFound.jsx';
 import Profile from 'components/profile/Profile.jsx';
 import ProtectedRoutes from 'components/protected-routes/ProtectedRoutes.jsx';
 import Login from 'components/login/Login.jsx';
 import Register from 'components/register/Register.jsx';
-import Preloader from 'components/preloader/Preloader';
 
 function App() {
   const navigate = useNavigate();
@@ -32,9 +31,7 @@ function App() {
     setActive((p) => !p);
   };
 
-  const loggedIn = true;
-
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
 
   function authorize() {
     setAuth(true);
@@ -45,25 +42,13 @@ function App() {
     navigate('/signin');
   }
 
-  const [loading, setLoading] = useState(false);
-
-  async function getData() {
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <CurrentUserContext.Provider value=''>
       <Routes>
         <Route path='/signin' element={<Login authorize={authorize} />} />
 
         <Route path='/signup' element={<Register authorize={authorize} />} />
-        <Route element={<ProtectedRoutes loggedIn={loggedIn} />}>
+        <Route element={<ProtectedRoutes loggedIn={auth} />}>
           <Route
             path='/'
             element={
@@ -84,25 +69,13 @@ function App() {
             path='/movies'
             element={
               <>
-                {loading ? (
-                  <>
-                    <TheHeader auth={auth} changeActive={changeActive} />
-
-                    <Preloader />
-                    <TheFooter />
-                  </>
-                ) : (
-                  <>
-                    <TheHeader auth={auth} changeActive={changeActive} />
-                    <Main>
-                      <SearchBlock />
-                      <MoviesCardList>
-                        <ShowMore />
-                      </MoviesCardList>
-                    </Main>
-                    <TheFooter />
-                  </>
-                )}
+                <TheHeader auth={auth} changeActive={changeActive} />
+                <Main>
+                  <SearchBlock />
+                  <MoviesCardList>
+                    <ShowMore />
+                  </MoviesCardList>
+                </Main>
               </>
             }
           />

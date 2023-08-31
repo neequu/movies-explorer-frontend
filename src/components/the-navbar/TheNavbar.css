@@ -23,7 +23,7 @@
   background-position: center;
 
   border-radius: 0.375rem;
-  background-color: #313131;
+  background-color: var(--gray-850);
 
   cursor: pointer;
 }

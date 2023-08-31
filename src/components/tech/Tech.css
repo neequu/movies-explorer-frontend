@@ -1,9 +1,6 @@
 .tech {
   padding-block:4.375rem;
   padding-inline: 1.125rem;
-
-  max-width: var(--max-width);
-  margin-inline: auto;
 }
 
 .tech__heading {
@@ -93,6 +90,9 @@
   .tech {
     padding-inline: 4.375rem;
     padding-block: 6.25rem;
+
+    max-width: var(--max-width);
+    margin-inline: auto;
   }
   .tech__content {
     padding-block-start: 5.625rem;

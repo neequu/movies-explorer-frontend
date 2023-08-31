@@ -28,7 +28,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background-color: #4285F4;
+  background-color: var(--blue-400);
 
   text-align: center;
   font-size: 0.75rem;
@@ -56,10 +56,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.4375rem;
-  color: #8B8B8B;
+  color: var(--gray-600);
 }
 .auth-form__link {
-  color: #4285F4;
+  color: var(--blue-400);
   text-decoration: none;
   border-bottom: solid transparent 1px;
   outline: none;
@@ -67,7 +67,8 @@
   transition: border 150ms, filter 250ms;
 }
 .auth-form__link:hover {filter: brightness(80%)}
-.auth-form__link:focus-within {border-color: #4285F4; } 
+.auth-form__link:focus-within {border-color: var(--blue-400); } 
+
 @media screen and (min-width:768px) {
   .auth-form__button {font-size: 0.875rem;}
   .auth-form__caption {font-size: 0.875rem;}

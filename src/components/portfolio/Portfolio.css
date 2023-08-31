@@ -1,9 +1,6 @@
 .portfolio {
   padding-inline: 0.875rem;
   padding-bottom:4.375rem;
-
-  max-width: var(--max-width);
-  margin-inline: auto;
 }
 
 .portfolio__heading {
@@ -68,6 +65,9 @@
   .portfolio {
     padding-block-end: 5.625rem;
     padding-inline: 3.125rem;
+
+    max-width: var(--max-width);
+    margin-inline: auto;
   }
   .portfolio__heading {
     font-size: 1.125rem;

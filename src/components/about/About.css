@@ -1,9 +1,6 @@
 .about {
   padding-block: 4.375rem;
   padding-inline: 1.125rem;
-
-  max-width: var(--max-width);
-  margin-inline: auto;
 }
 
 .about__heading {
@@ -49,6 +46,9 @@
   .about {
     padding-inline: 4.375rem;
     padding-block: 6.875rem;
+
+    max-width: var(--max-width);
+    margin-inline: auto;
   }
   .about__content {
     padding-block-end: 6.875rem;

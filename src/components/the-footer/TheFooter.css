@@ -7,10 +7,6 @@
   background-color: var(--dark);
   margin-top: -2px;
 }
-.footer__container {
-  max-width: var(--max-width);
-  margin-inline: auto;
-}
 .footer__caption {
   padding-bottom: 1.25rem;
   margin: 0;
@@ -68,4 +64,8 @@
 
 @media screen and (min-width:1280px) {
   .footer { padding-inline: 4.375rem; }
+  .footer__container {
+    max-width: var(--max-width);
+    margin-inline: auto;
+  }
 }

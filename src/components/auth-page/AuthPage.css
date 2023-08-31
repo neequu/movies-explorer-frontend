@@ -32,7 +32,10 @@
 }
 
 
-.auth__logo {height: 38px;}
+.auth__logo {
+  aspect-ratio: 1;
+  height: 38px;
+}
 @media screen and (min-width:768px) {
   .auth {
     padding-block-start: 0;

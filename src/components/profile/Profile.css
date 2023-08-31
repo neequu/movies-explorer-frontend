@@ -67,13 +67,13 @@
   transition: filter 250ms;
 }
 .profile__button:hover {filter: brightness(80%);}
-.profile__button_red {color: #EE3465;} 
+.profile__button_red {color: var(--red-500);} 
 
 .profile__button_save {
   margin: 0;
   padding: 0;
   border: 0;
-  background-color: #4285F4;
+  background-color: var(--blue-400);
 
   text-align: center;
   font-size: 0.75rem;

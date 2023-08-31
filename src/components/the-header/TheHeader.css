@@ -7,13 +7,14 @@
 
   background-color: var(--dark);
 
-  max-width: var(--max-width);
   margin-inline: auto;
 }
 .header__container_accent {background-color: var(--blue-700);}
 .header__logo {
   cursor: pointer;
   transition: filter 250ms ease-in-out;
+  width: 38px;
+  aspect-ratio: 1;
 }
 .header__mobile-nav-toggle {
   border: 0;
@@ -77,7 +78,10 @@
 }
 
 @media screen and (min-width:1280px) {
-  .header__container { padding-inline: 4.375rem;  }
+  .header__container { 
+    padding-inline: 4.375rem;  
+    max-width: var(--max-width);
+  }
   .header__link { font-size: 0.75rem; }
 
   .header__link_green {

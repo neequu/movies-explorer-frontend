@@ -4,8 +4,6 @@
   padding-inline: 0.625rem;
 
   background-color: var(--blue-700);
-  max-width: var(--max-width);
-  margin-inline: auto;
 
   display: flex;
   flex-direction: column;
@@ -63,8 +61,10 @@
 .hero__link:hover { filter: brightness(70%); }
 
 .hero__image {
-  animation: 400s infinite spin;
+  /* animation: 400s infinite spin; */
   order: -1;
+  height: 206px;
+  width: 210px;
 }
 
 @keyframes spin {
@@ -101,6 +101,9 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: flex-start;
+
+    max-width: var(--max-width);
+    margin-inline: auto;
   }
 
   .hero__content-container {

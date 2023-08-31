@@ -1,4 +1,4 @@
-import AuthFormItem from './item/AuthFormItem';
+import AuthFormItem from 'components/auth-form-item/AuthFormItem';
 import useValidate from 'utils/useValidate.js';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';

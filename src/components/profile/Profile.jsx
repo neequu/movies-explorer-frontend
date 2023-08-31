@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-function Profile() {
+function Profile({ unathorize }) {
   const [isEditing, setEditing] = useState(false);
 
   return (
@@ -31,11 +30,11 @@ function Profile() {
             </>
           ) : (
             <>
-              <Link
-                className='profile__button profile__button_red'
-                to='/sign-in'>
+              <button
+                onClick={unathorize}
+                className='profile__button profile__button_red'>
                 Выйти из аккаунта
-              </Link>
+              </button>
               <button
                 className='profile__button'
                 onClick={() => setEditing(true)}>

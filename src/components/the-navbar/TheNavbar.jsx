@@ -1,9 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
 function TheNavbar() {
-  const auth = true;
-  // const auth = false;
-
   const activeClass = ({ isActive }) =>
     `nav__link ${isActive ? 'nav__link_active' : ''}`;
 

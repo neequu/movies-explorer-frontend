@@ -1,28 +1,11 @@
-import AuthForm from '../auth-form/AuthForm';
-import AuthFormItem from '../auth-form/item/AuthFormItem';
-import AuthPage from '../auth-page/AuthPage';
-import validate from '../../utils/useValidate.js';
+import AuthForm from 'components/auth-form/AuthForm';
+import AuthPage from 'components/auth-page/AuthPage';
 
-function Register() {
-  const { values, error, handleChange } = validate();
-
+function Register({ authorize }) {
   return (
     <>
       <AuthPage heading='Добро пожаловать!'>
-        <AuthForm>
-          <AuthFormItem
-            onChange={handleChange}
-            errorMsg={error.password}
-            value={values.email || ''}
-            label='Пароль'
-            type='password'
-            name='password'
-            required
-            minLength={5}
-            autoComplete='current-password'
-            placeholder='Пароль'
-          />
-        </AuthForm>
+        <AuthForm authorize={authorize} />
       </AuthPage>
     </>
   );

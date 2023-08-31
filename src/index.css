@@ -64,7 +64,7 @@ html,
 #root {
   margin: 0;
   height: 100%;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   color: #fff;
   scroll-behavior: smooth;
   min-width: 320px;

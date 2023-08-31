@@ -1,35 +1,31 @@
-// import { useState } from 'react';
-import {
-  // BrowserRouter,
-  // Link,
-  Route,
-  Routes,
-  // useNavigate,
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, Route, Routes } from 'react-router-dom';
 // context
 import { CurrentUserContext } from 'contexts/CurrentUserContext.js';
-import TheHeader from '../the-header/TheHeader.jsx';
-import Main from '../main/Main.jsx';
+// components
+import TheHeader from 'components/the-header/TheHeader.jsx';
+import Main from 'components/main/Main.jsx';
 import TheFooter from 'components/the-footer/TheFooter.jsx';
-import { useState } from 'react';
-import MobileNav from '../mobile-nav/MobileNav.jsx';
-import Modal from '../modal/Modal.jsx';
-
-import Hero from '../hero/Hero.jsx';
-import About from '../about/About.jsx';
-import Tech from '../tech/Tech.jsx';
-import Student from '../student/Student.jsx';
-import Portfolio from '../portfolio/Portfolio.jsx';
-import SearchBlock from '../search-block/SearchBlock.jsx';
-import MoviesCardList from '../movies/card-list/MoviesCardList.jsx';
-import ShowMore from '../show-more/ShowMore.jsx';
-import NotFound from '../not-found/NotFound.jsx';
-import Profile from '../profile/Profile.jsx';
-import ProtectedRoutes from '../protected-routes/ProtectedRoutes.jsx';
-import Login from '../login/Login.jsx';
-import Register from '../register/Register.jsx';
+import MobileNav from 'components/mobile-nav/MobileNav.jsx';
+import Modal from 'components/modal/Modal.jsx';
+import Hero from 'components/hero/Hero.jsx';
+import About from 'components/about/About.jsx';
+import Tech from 'components/tech/Tech.jsx';
+import Student from 'components/student/Student.jsx';
+import Portfolio from 'components/portfolio/Portfolio.jsx';
+import SearchBlock from 'components/search-block/SearchBlock.jsx';
+import MoviesCardList from 'components/movies/card-list/MoviesCardList.jsx';
+import ShowMore from 'components/show-more/ShowMore.jsx';
+import NotFound from 'components/not-found/NotFound.jsx';
+import Profile from 'components/profile/Profile.jsx';
+import ProtectedRoutes from 'components/protected-routes/ProtectedRoutes.jsx';
+import Login from 'components/login/Login.jsx';
+import Register from 'components/register/Register.jsx';
+import Preloader from 'components/preloader/Preloader';
 
 function App() {
+  const navigate = useNavigate();
+
   const [active, setActive] = useState(false);
 
   const changeActive = () => {
@@ -37,19 +33,42 @@ function App() {
   };
 
   const loggedIn = true;
+
+  const [auth, setAuth] = useState(false);
+
+  function authorize() {
+    setAuth(true);
+    navigate('/');
+  }
+  function unathorize() {
+    setAuth(false);
+    navigate('/signin');
+  }
+
+  const [loading, setLoading] = useState(false);
+
+  async function getData() {
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <CurrentUserContext.Provider value=''>
       <Routes>
-        <Route path='/sign-in' element={<Login />} />
+        <Route path='/signin' element={<Login authorize={authorize} />} />
 
-        <Route path='/sign-up' element={<Register />} />
+        <Route path='/signup' element={<Register authorize={authorize} />} />
         <Route element={<ProtectedRoutes loggedIn={loggedIn} />}>
           <Route
             path='/'
             element={
               <>
-                <TheHeader changeActive={changeActive} />
-
+                <TheHeader auth={auth} changeActive={changeActive} />
                 <Main>
                   <Hero />
                   <About />
@@ -65,15 +84,25 @@ function App() {
             path='/movies'
             element={
               <>
-                <TheHeader changeActive={changeActive} />
+                {loading ? (
+                  <>
+                    <TheHeader auth={auth} changeActive={changeActive} />
 
-                <Main>
-                  <SearchBlock />
-                  <MoviesCardList>
-                    <ShowMore />
-                  </MoviesCardList>
-                </Main>
-                <TheFooter />
+                    <Preloader />
+                    <TheFooter />
+                  </>
+                ) : (
+                  <>
+                    <TheHeader auth={auth} changeActive={changeActive} />
+                    <Main>
+                      <SearchBlock />
+                      <MoviesCardList>
+                        <ShowMore />
+                      </MoviesCardList>
+                    </Main>
+                    <TheFooter />
+                  </>
+                )}
               </>
             }
           />
@@ -81,7 +110,7 @@ function App() {
             path='/saved-movies'
             element={
               <>
-                <TheHeader changeActive={changeActive} />
+                <TheHeader auth={auth} changeActive={changeActive} />
                 <Main>
                   <SearchBlock />
                   <MoviesCardList limit={3} />
@@ -94,8 +123,8 @@ function App() {
             path='/profile'
             element={
               <>
-                <TheHeader changeActive={changeActive} />
-                <Profile />
+                <TheHeader auth={auth} changeActive={changeActive} />
+                <Profile unathorize={unathorize} />
               </>
             }
           />

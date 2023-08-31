@@ -1,10 +1,13 @@
 import { projects } from 'utils/constants.js';
-import arrowUp from 'assets/arrow-up.svg';
 
 function Portfolio() {
   const projectList = projects.map((p) => (
     <li key={p.name} className='porfolio__list-item'>
-      <a href={p.link} className='portfolio__link' target='_blank'>
+      <a
+        href={p.link}
+        className='portfolio__link'
+        target='_blank'
+        rel='noreferrer'>
         {p.name}
         <button className='portfolio__link-arrow'></button>
       </a>

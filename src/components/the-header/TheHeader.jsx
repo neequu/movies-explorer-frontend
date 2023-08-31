@@ -1,11 +1,9 @@
 import logo from 'assets/logo.svg';
 import { Link, useLocation } from 'react-router-dom/dist';
-import TheNavbar from '../the-navbar/TheNavbar';
+import TheNavbar from 'components/the-navbar/TheNavbar';
 
-function TheHeader({ active, changeActive }) {
+function TheHeader({ changeActive, auth }) {
   const { pathname } = useLocation();
-  const auth = true;
-  // const auth = false;
   return (
     <header className='header'>
       <div
@@ -36,10 +34,10 @@ function TheHeader({ active, changeActive }) {
         ) : (
           <>
             <div className='header__link-container'>
-              <Link className='header__link' to='/sign-up'>
+              <Link className='header__link' to='/signup'>
                 Регистрация
               </Link>
-              <Link className='header__link header__link_green' to='/sign-in'>
+              <Link className='header__link header__link_green' to='/signin'>
                 Войти
               </Link>
             </div>

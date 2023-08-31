@@ -1,6 +1,4 @@
 function AuthFormItem({ onChange, errorMsg, value, label, ...inputProps }) {
-  const handleChange = (e) => onChange(e);
-
   return (
     <div className='auth-form__item'>
       <label className='auth-form__label'>{label}</label>
@@ -9,7 +7,7 @@ function AuthFormItem({ onChange, errorMsg, value, label, ...inputProps }) {
           errorMsg?.length ? 'auth-form__input_error' : ''
         }`}
         {...inputProps}
-        onChange={handleChange}
+        onChange={onChange}
         value={value}
       />
       <span

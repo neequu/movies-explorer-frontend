@@ -12,13 +12,15 @@ function TheFooter() {
             <a
               target='_blank'
               href='https://practicum.yandex.ru/profile/web/'
-              className='footer__link'>
+              className='footer__link'
+              rel='noreferrer'>
               Яндекс.Практикум
             </a>
             <a
               target='_blank'
               href='https://github.com/niccc0'
-              className='footer__link'>
+              className='footer__link'
+              rel='noreferrer'>
               Github
             </a>
           </div>

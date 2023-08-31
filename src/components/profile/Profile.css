@@ -62,13 +62,11 @@
   background-color: transparent;
 
   font-size: 0.75rem;
-  text-decoration: none;
 
   cursor: pointer;
-
   transition: filter 250ms;
 }
-.profile__button:hover {filter: brightness(70%);}
+.profile__button:hover {filter: brightness(80%);}
 .profile__button_red {color: #EE3465;} 
 
 .profile__button_save {

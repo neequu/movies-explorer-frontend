@@ -18,7 +18,7 @@ function Hero() {
         className='hero__image'
         loading='lazy'
         src={heroImage}
-        alt='hero image of a planet'
+        alt='planet'
       />
     </section>
   );

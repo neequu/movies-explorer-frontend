@@ -1,5 +1,5 @@
-import AboutBlock from '../about-block/AboutBlock';
-import Diagram from '../diagram/Diagram';
+import AboutBlock from 'components/about-block/AboutBlock';
+import Diagram from 'components/diagram/Diagram';
 
 function About() {
   return (

@@ -1,10 +1,10 @@
-import AuthForm from '../auth-form/AuthForm';
-import AuthPage from '../auth-page/AuthPage';
+import AuthForm from 'components/auth-form/AuthForm';
+import AuthPage from 'components/auth-page/AuthPage';
 
-function Login() {
+function Login({ authorize }) {
   return (
     <AuthPage heading='Рады видеть!'>
-      <AuthForm />
+      <AuthForm authorize={authorize} />
     </AuthPage>
   );
 }

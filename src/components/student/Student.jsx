@@ -7,7 +7,8 @@ function Student() {
         <img
           className='student__photo'
           src={studentPhoto}
-          alt='image of a studnet'
+          loading='lazy'
+          alt='studnet'
         />
         <div className='student__text-content'>
           <div>
@@ -24,6 +25,7 @@ function Student() {
             </p>
           </div>
           <a
+            rel='noreferrer'
             target='_blank'
             href='https://github.com/niccc0'
             className='studnet__link'>

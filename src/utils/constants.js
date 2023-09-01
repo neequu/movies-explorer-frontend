@@ -1,15 +1,15 @@
-import movie from 'assets/movie.png';
-import movie2 from 'assets/movie2.png';
-import movie3 from 'assets/movie3.png';
-import movie4 from 'assets/movie4.png';
-import movie5 from 'assets/movie5.png';
-import movie6 from 'assets/movie6.png';
-import movie7 from 'assets/movie7.png';
-import movie8 from 'assets/movie8.png';
-import movie9 from 'assets/movie9.png';
-import movie10 from 'assets/movie10.png';
-import movie11 from 'assets/movie11.png';
-import movie12 from 'assets/movie12.png';
+import movie from 'images/movie.png';
+import movie2 from 'images/movie2.png';
+import movie3 from 'images/movie3.png';
+import movie4 from 'images/movie4.png';
+import movie5 from 'images/movie5.png';
+import movie6 from 'images/movie6.png';
+import movie7 from 'images/movie7.png';
+import movie8 from 'images/movie8.png';
+import movie9 from 'images/movie9.png';
+import movie10 from 'images/movie10.png';
+import movie11 from 'images/movie11.png';
+import movie12 from 'images/movie12.png';
 
 export const movies = [
   { name: '1', image: movie },

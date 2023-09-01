@@ -1,4 +1,4 @@
-import heroImage from 'assets/hero.svg';
+import heroImage from 'images/hero.svg';
 
 function Hero() {
   return (
@@ -18,7 +18,7 @@ function Hero() {
         className='hero__image'
         loading='lazy'
         src={heroImage}
-        alt='planet'
+        alt='планета'
       />
     </section>
   );

@@ -1,12 +1,14 @@
 .auth {
   padding-block-start: 3.5rem;
   padding-block-end: 1.875rem;
-  padding-inline: 1.875rem;
+  padding-inline: var(--padding);
 
   display: flex;
   flex-flow: column;
   align-items: center;
 
+  --padding: 1.875rem;
+  width: calc(100% - var(--padding) * 2);
   flex: 1;
 }
 .auth__container {
@@ -17,10 +19,7 @@
 
   max-width: 260px;
   width: 100%;
-
-
 }
-
 .auth__heading {
   margin: 0;
   margin-bottom: 5rem;
@@ -31,11 +30,16 @@
   font-size: 1.5rem;
 }
 
-
 .auth__logo {
-  aspect-ratio: 1;
+  aspect-ratio: 1/1;
   height: 38px;
 }
+.auth__link {
+  text-decoration: none;
+  transition: filter 250ms ease;
+  width: max-content;
+}
+.auth__link:hover { filter: brightness(110%);  }
 @media screen and (min-width:768px) {
   .auth {
     padding-block-start: 0;

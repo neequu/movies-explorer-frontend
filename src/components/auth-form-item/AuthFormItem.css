@@ -13,7 +13,7 @@
   transition: border 250ms;
 
   color: inherit;
-  font-family: inherit;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 0.875rem;
 }
 .auth-form__input:focus {

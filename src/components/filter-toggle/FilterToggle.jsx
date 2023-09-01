@@ -10,7 +10,7 @@ function FilterToggle({ children }) {
         tabIndex='0'
         htmlFor='filter-toggle-checkbox'
         className='filter-toggle__label'>
-        <div className='filter-toggle__ball'></div>
+        <span className='filter-toggle__ball'></span>
       </label>
       {children}
     </div>

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 function TheNavbar() {
   const activeClass = ({ isActive }) =>
-    `nav__link ${isActive ? 'nav__link_active' : ''}`;
+    `nav__link ${isActive ? 'nav__link_type_active' : ''}`;
 
   return (
     <nav className='nav'>
@@ -14,9 +14,9 @@ function TheNavbar() {
         Сохранённые фильмы
       </NavLink>
       <NavLink className={activeClass} to='/profile'>
-        <span className='nav__link_account'>
+        <span className='nav__link-account'>
           Аккаунт
-          <button className='nav__icon'></button>
+          <span className='nav__icon'></span>
         </span>
       </NavLink>
     </nav>

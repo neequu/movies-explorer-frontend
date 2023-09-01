@@ -1,10 +1,11 @@
-.show-more__button {
+.show-more-button {
   border: none;
   margin: 0;
   padding: 0;
 
   color: inherit;
-  font: inherit;
+  font-family: 'Inter', Arial, sans-serif;
+
   font-size: 0.75rem;
   font-weight: 500;
   line-height: normal;
@@ -19,4 +20,4 @@
 
   transition: filter 150ms;
 }
-.show-more__button:hover {filter: brightness(90%);}
+.show-more-button:hover {filter: brightness(90%);}

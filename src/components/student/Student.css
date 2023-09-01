@@ -1,8 +1,9 @@
 .student {
+  --padding: 0.875rem;
   padding-block: 4.375rem;
-  padding-inline: 0.875rem;
+  padding-inline: var(--padding);
 
-
+  width: calc(100% - var(--padding) * 2);
 }
 
 .student__heading {
@@ -34,7 +35,7 @@
 }
 
 .student__text-content {padding-block-start: 2.5rem;}
-.studnet__link {
+.student__link {
   color: inherit;
   font-size: 0.875rem;
   font-weight: 500;
@@ -48,15 +49,18 @@
   display: block;
   margin-inline: auto;
 }
-.studnet__link:hover {
+.student__link:hover {
   filter: brightness(70%);
   transition: filter 250ms ease;
 }
 
 @media screen and (min-width:768px) {
   .student {
+    --padding: 3.125rem;
     padding-block: 5.625rem;
-    padding-inline: 3.125rem;
+    padding-inline: var(--padding);
+
+
   }
   .student__content { 
     display: flex;
@@ -94,12 +98,13 @@
     font-size: 0.75rem;
     line-height: 1.125rem;
   }
-  .studnet__link {margin: 0;}
+  .student__link {margin: 0;}
 }
 
 @media screen and (min-width:1280px) {
   .student {
-    padding-inline: 4.375rem;
+    --padding: 4.375rem;  
+    padding-inline: var(--padding);
     padding-block-start: 6.875rem;
     padding-block-end: 6.3125rem;
 

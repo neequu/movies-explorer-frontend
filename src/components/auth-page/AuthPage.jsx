@@ -1,19 +1,22 @@
-import logo from 'assets/logo.svg';
+import logo from 'images/logo.svg';
+import { Link } from 'react-router-dom';
 
 function AuthPage({ children, heading }) {
   return (
-    <div className='auth'>
+    <section className='auth'>
       <div className='auth__container'>
-        <img
-          className='auth__logo'
-          src={logo}
-          loading='lazy'
-          alt='moovees logo'
-        />
+        <Link to='/' className='auth__link'>
+          <img
+            className='auth__logo'
+            src={logo}
+            loading='lazy'
+            alt='moovees логотип'
+          />
+        </Link>
         <h1 className='auth__heading'>{heading}</h1>
         {children}
       </div>
-    </div>
+    </section>
   );
 }
 

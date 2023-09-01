@@ -12,8 +12,11 @@ function MobileNav({ active, changeActive }) {
   ];
 
   return (
-    <div className={`mobile-nav ${active ? 'mobile-nav_active' : ''}`}>
+    <div
+      id='mobile-nav'
+      className={`mobile-nav ${active ? 'mobile-nav_active' : ''}`}>
       <button
+        type='button'
         className='mobile-nav__close-button'
         onClick={changeActive}></button>
       <nav className='mobile-nav__container'>
@@ -28,11 +31,11 @@ function MobileNav({ active, changeActive }) {
         ))}
       </nav>
       <Link
-        className='mobile-nav__link_account'
+        className='mobile-nav__link-account'
         to='/profile'
         onClick={changeActive}>
         Аккаунт
-        <button className='nav__icon'></button>
+        <span className='mobile-nav__icon'></span>
       </Link>
     </div>
   );

@@ -29,7 +29,9 @@
 
   padding-bottom: 0.4375rem;
   border-bottom: 2px solid transparent;
+  transition: filter 250ms ease;
 }
+.mobile-nav__link:hover { filter: brightness(70%); }
 .mobile-nav__link_active { border-color: #fff; }
 .mobile-nav__close-button {
   border: none;
@@ -38,22 +40,24 @@
 
   background-color: transparent;
 
-  background-image: url(assets/close.svg);
+  background-image: url(images/close.svg);
   background-position: center;
   background-repeat: no-repeat;
 
   width: 22px;
-  aspect-ratio: 1;
+  aspect-ratio: 1/1;
 
   position: absolute;
   right: 0.875rem;
   top: 0.875rem;
 
   cursor: pointer;
+  transition: filter 250ms ease;
 }
+.mobile-nav__close-button:hover {filter: brightness(70%)}
 
 /* link */
-.mobile-nav__link_account {
+.mobile-nav__link-account {
   text-decoration: none;
   color: inherit;
 
@@ -69,8 +73,25 @@
 
   z-index: 1000;
 }
-.mobile-nav__link_account:hover { filter: brightness(80%);}
+.mobile-nav__link-account:hover { filter: brightness(80%);}
+/* icon */
+.mobile-nav__icon {
+  border: none;
+  margin: 0;
+  padding: 0;
 
+  width: 1.875rem;
+  aspect-ratio: 1/1;
+
+  background-image: url(images/account.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+
+  border-radius: 0.375rem;
+  background-color: var(--gray-850);
+
+  cursor: pointer;
+}
 @media screen and (min-width:768px) {
   .mobile-nav {
     inset: initial;

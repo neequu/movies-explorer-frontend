@@ -1,6 +1,9 @@
 .about {
+  --padding: 1.125rem;
   padding-block: 4.375rem;
-  padding-inline: 1.125rem;
+  padding-inline: var(--padding);
+
+  width: calc(100% - var(--padding) * 2);
 }
 
 .about__heading {
@@ -22,8 +25,9 @@
 
 @media screen and (min-width:768px) {
   .about {
+    --padding: 3.125rem;
     padding-block: 5.625rem;
-    padding-inline: 3.125rem;
+    padding-inline: var(--padding);
   }
   
   .about__heading {
@@ -44,7 +48,8 @@
 
 @media screen and (min-width:1280px) {
   .about {
-    padding-inline: 4.375rem;
+    --padding: 4.375rem;
+    padding-inline: var(--padding);
     padding-block: 6.875rem;
 
     max-width: var(--max-width);

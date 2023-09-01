@@ -1,33 +1,29 @@
-import logo from 'assets/logo.svg';
+import logo from 'images/logo.svg';
 import { Link, useLocation } from 'react-router-dom/dist';
 import TheNavbar from 'components/the-navbar/TheNavbar';
 
 function TheHeader({ changeActive, auth }) {
   const { pathname } = useLocation();
   return (
-    <header className='header'>
-      <div
-        className={`header__container ${
-          pathname === '/' ? 'header__container_accent' : ''
-        }`}>
+    <header className={`header ${pathname === '/' ? 'header_accent' : ''}`}>
+      <div className='header__container'>
         <Link className='header__link header__link_bright' to='/'>
           <img
             className='header__logo'
             src={logo}
             loading='lazy'
-            alt='moovees logo'
+            alt='moovees логотип'
           />
         </Link>
 
         {auth ? (
           <>
             <button
+              type='button'
               onClick={changeActive}
               className='header__mobile-nav-toggle'
-              aria-controls='primary-navigation'>
-              <span className='sr-only' aria-expanded='false'>
-                Menu
-              </span>
+              aria-controls='mobile-nav'>
+              <span className='sr-only'>Menu</span>
             </button>
             <TheNavbar />
           </>

@@ -7,6 +7,7 @@
 
   display: flex;
   flex-flow: column;
+  flex: 1;
 }
 
 .not-found__info { 
@@ -32,7 +33,8 @@
   background: transparent;
 
   color: inherit;
-  font: inherit;
+  font-family: 'Inter', Arial, sans-serif;
+
 
   cursor: pointer;
 
@@ -48,8 +50,9 @@
   padding-bottom: 1.875rem;
 
   flex: 1;
+  transition: filter 250ms ease;
 }
-
+.not-found__link:hover { filter: brightness(70%); }
 @media screen and (min-width:768px) {
   .not-found__info { gap: 0.3125rem; }
   .not-found__paragraph { margin: 0; font-size: 8.75rem; }

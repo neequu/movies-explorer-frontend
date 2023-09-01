@@ -1,50 +1,92 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useValidate, useDisable } from 'utils/useValidate';
 
 function Profile({ unathorize }) {
   const [isEditing, setEditing] = useState(false);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    setEditing(false);
+  }
+
+  function editing() {
+    setEditing(true);
+  }
+
+  const { values, error, handleChange } = useValidate();
+  const { disabled, validateInputs } = useDisable();
+
+  const fields = useRef(null);
+  useEffect(() => {
+    validateInputs(error, fields.current.elements);
+  }, [error]);
+
   return (
-    <div className='profile'>
-      <div className='profile__container'>
+    <section className='profile'>
+      <form className='profile__container' onSubmit={handleSubmit}>
         <div>
           <h1 className='profile__heading'>Привет, Виталий!</h1>
-          <div className='profile__content'>
+          <fieldset className='profile__content' ref={fields}>
             <div className='profile__item'>
-              <p className='profile__paragraph'>Имя</p>
-              <p className='profile__paragraph'>Виталий</p>
+              <label className='profile__label'>Имя</label>
+              <input
+                onChange={handleChange}
+                value={values.name ?? 'Виталий'}
+                type='text'
+                className='profile__input'
+                disabled={!isEditing}
+                placeholder='Имя'
+                minLength={2}
+                name='name'
+                required
+              />
             </div>
             <div className='profile__item'>
-              <p className='profile__paragraph'>E-mail</p>
-              <p className='profile__paragraph'>pochta@yandex.ru</p>
+              <label className='profile__label'>E-mail</label>
+              <input
+                onChange={handleChange}
+                value={values.email ?? 'pochta@yandex.ru'}
+                type='email'
+                className='profile__input'
+                disabled={!isEditing}
+                placeholder='E-mail'
+                name='email'
+                required
+              />
             </div>
-          </div>
+          </fieldset>
         </div>
         <div className='profile__footer'>
           {isEditing ? (
             <>
               <button
-                className='profile__button_save'
-                onClick={() => setEditing(false)}>
+                type='submit'
+                className={`${
+                  disabled ? 'profile__button_disabled' : 'profile__button_save'
+                }`}
+                disabled={disabled}>
                 Сохранить
               </button>
             </>
           ) : (
             <>
               <button
-                onClick={unathorize}
-                className='profile__button profile__button_red'>
+                type='button'
+                className='profile__button profile__button_red'
+                onClick={unathorize}>
                 Выйти из аккаунта
               </button>
               <button
+                type='button'
                 className='profile__button'
-                onClick={() => setEditing(true)}>
+                onClick={editing}>
                 Редактировать
               </button>
             </>
           )}
         </div>
-      </div>
-    </div>
+      </form>
+    </section>
   );
 }
 

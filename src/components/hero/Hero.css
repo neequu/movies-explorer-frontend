@@ -1,7 +1,11 @@
 .hero {
+  --padding: 0.625rem;
+
   padding-top: 4.375rem;
   padding-bottom: 1.875rem;
-  padding-inline: 0.625rem;
+  padding-inline: var(--padding);
+  
+  width: calc(100% - var(--padding) * 2);
 
   background-color: var(--blue-700);
 
@@ -61,22 +65,17 @@
 .hero__link:hover { filter: brightness(70%); }
 
 .hero__image {
-  /* animation: 400s infinite spin; */
   order: -1;
   height: 206px;
   width: 210px;
 }
 
-@keyframes spin {
-  from { rotate: 0deg; }
-  to { rotate: 360deg; }
-}
-
 @media screen and (min-width:768px) {
   .hero {
+    --padding: 1.875rem;
     padding-top: 8.75rem;
     padding-bottom: 4.6875rem;
-    padding-inline: 1.875rem;
+    padding-inline: var(--padding);
   }
 
   .hero__heading {
@@ -94,16 +93,14 @@
 
 @media screen and (min-width:1280px) {
   .hero {
+    --padding: 4.375rem;
     padding-block: 4.6875rem;
-    padding-inline: 4.375rem;
+    padding-inline: var(--padding);
 
     text-align: left;
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: flex-start;
-
-    max-width: var(--max-width);
-    margin-inline: auto;
   }
 
   .hero__content-container {

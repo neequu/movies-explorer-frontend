@@ -45,26 +45,40 @@ function App() {
   return (
     <CurrentUserContext.Provider value=''>
       <Routes>
-        <Route path='/signin' element={<Login authorize={authorize} />} />
+        <Route
+          path='/signin'
+          element={
+            <Main>
+              <Login authorize={authorize} />
+            </Main>
+          }
+        />
 
-        <Route path='/signup' element={<Register authorize={authorize} />} />
+        <Route
+          path='/signup'
+          element={
+            <Main>
+              <Register authorize={authorize} />
+            </Main>
+          }
+        />
+        <Route
+          path='/'
+          element={
+            <>
+              <TheHeader auth={auth} changeActive={changeActive} />
+              <Main>
+                <Hero />
+                <About />
+                <Tech />
+                <Student />
+                <Portfolio />
+              </Main>
+              <TheFooter />
+            </>
+          }
+        />
         <Route element={<ProtectedRoutes loggedIn={auth} />}>
-          <Route
-            path='/'
-            element={
-              <>
-                <TheHeader auth={auth} changeActive={changeActive} />
-                <Main>
-                  <Hero />
-                  <About />
-                  <Tech />
-                  <Student />
-                  <Portfolio />
-                </Main>
-                <TheFooter />
-              </>
-            }
-          />
           <Route
             path='/movies'
             element={
@@ -76,6 +90,7 @@ function App() {
                     <ShowMore />
                   </MoviesCardList>
                 </Main>
+                <TheFooter />
               </>
             }
           />
@@ -97,11 +112,20 @@ function App() {
             element={
               <>
                 <TheHeader auth={auth} changeActive={changeActive} />
-                <Profile unathorize={unathorize} />
+                <Main>
+                  <Profile unathorize={unathorize} />
+                </Main>
               </>
             }
           />
-          <Route path='/*' element={<NotFound />} />
+          <Route
+            path='/*'
+            element={
+              <Main>
+                <NotFound />
+              </Main>
+            }
+          />
         </Route>
       </Routes>
 

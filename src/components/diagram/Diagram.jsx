@@ -1,6 +1,6 @@
 function Diagram() {
   return (
-    <div className='diagram'>
+    <article className='diagram'>
       <div className='diagram__item diagram__item_sm'>
         <div className='diagram__block diagram__block_green'>1 неделя</div>
         <span className='diagram__text'>Back-end</span>
@@ -9,7 +9,7 @@ function Diagram() {
         <div className='diagram__block'>4 недели</div>
         <span className='diagram__text'>Front-end</span>
       </div>
-    </div>
+    </article>
   );
 }
 

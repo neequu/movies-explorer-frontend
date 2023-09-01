@@ -1,4 +1,4 @@
-import studentPhoto from 'assets/student.png';
+import studentPhoto from 'images/student.png';
 function Student() {
   return (
     <section className='student'>
@@ -8,11 +8,11 @@ function Student() {
           className='student__photo'
           src={studentPhoto}
           loading='lazy'
-          alt='studnet'
+          alt='студент яндекса виталий'
         />
         <div className='student__text-content'>
           <div>
-            <p className='student__subheading'>Виталий</p>
+            <h2 className='student__subheading'>Виталий</h2>
             <p className='student__text student__text_lg'>
               Фронтенд-разработчик, 30 лет
             </p>
@@ -28,7 +28,7 @@ function Student() {
             rel='noreferrer'
             target='_blank'
             href='https://github.com/niccc0'
-            className='studnet__link'>
+            className='student__link'>
             Github
           </a>
         </div>

@@ -1,6 +1,9 @@
 .tech {
+  --padding: 1.125rem;
   padding-block:4.375rem;
-  padding-inline: 1.125rem;
+  padding-inline: var(--padding);
+
+  width: calc(100% - var(--padding) * 2);
 }
 
 .tech__heading {
@@ -37,6 +40,9 @@
 }
 
 .tech__blocks {
+  padding: 0;
+  list-style: none;
+  margin: 0;
   display: grid;
   place-content: center;
   gap: 0.625rem;
@@ -57,8 +63,9 @@
 @media screen and (min-width:768px) {
   .tech {
     background-color: var(--gray-900);
+    --padding: 3.125rem;
     padding-block:5.625rem;
-    padding-inline: 3.125rem;
+    padding-inline: var(--padding);
   }
   .tech__heading {
     font-size: 1.375rem;
@@ -88,11 +95,12 @@
 
 @media screen and (min-width:1280px) {
   .tech {
-    padding-inline: 4.375rem;
+    --padding: 4.375rem;
+    padding-inline: var(--padding);
     padding-block: 6.25rem;
 
-    max-width: var(--max-width);
-    margin-inline: auto;
+
+
   }
   .tech__content {
     padding-block-start: 5.625rem;

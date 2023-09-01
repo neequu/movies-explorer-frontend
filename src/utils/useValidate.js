@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useValidate = () => {
+export function useValidate() {
   const [values, setValues] = useState({});
   const [error, setError] = useState({});
 
@@ -16,6 +16,17 @@ const useValidate = () => {
   };
 
   return { values, error, resetForm, handleChange, setValues };
-};
+}
 
-export default useValidate;
+export function useDisable() {
+  const [disabled, setDisabled] = useState(true);
+
+  const validateInputs = (error, formInputs) => {
+    if (!error || !Object.entries(error).length) return;
+    const allValid = [...formInputs].every((input) => input.validity.valid);
+
+    setDisabled(!allValid);
+  };
+
+  return { disabled, validateInputs };
+}

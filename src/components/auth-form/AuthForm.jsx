@@ -1,10 +1,11 @@
 import AuthFormItem from 'components/auth-form-item/AuthFormItem';
-import useValidate from 'utils/useValidate.js';
+import { useValidate, useDisable } from 'utils/useValidate.js';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 function AuthForm({ authorize }) {
   const { values, error, handleChange } = useValidate();
+  const { disabled, validateInputs } = useDisable();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,15 +33,9 @@ function AuthForm({ authorize }) {
 
   const { caption, linkText, linkPath, buttonText } = getAuthTextContent();
 
-  const [dis, setDis] = useState(true);
-
   const formInputs = useRef(null);
   useEffect(() => {
-    if (!Object.entries(error).length) return;
-    const allValid = [...formInputs.current.elements].every(
-      (input) => input.validity.valid
-    );
-    setDis(!allValid);
+    validateInputs(error, formInputs.current.elements);
   }, [error]);
 
   return (
@@ -88,9 +83,9 @@ function AuthForm({ authorize }) {
         <button
           type='submit'
           className={`auth-form__button ${
-            dis ? 'auth-form__button_disabled' : ''
+            disabled ? 'auth-form__button_disabled' : ''
           }`}
-          disabled={dis}>
+          disabled={disabled}>
           {buttonText}
         </button>
         <span className='auth-form__caption'>

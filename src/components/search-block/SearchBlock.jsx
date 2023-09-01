@@ -1,14 +1,10 @@
-import SearchInput from 'components/search-form/SearchForm.jsx';
-import FilterToggle from 'components/filter-toggle/FilterToggle.jsx';
+import SearchForm from 'components/search-form/SearchForm.jsx';
 
 function SearchBlock() {
   return (
-    <div className='search-block'>
-      <SearchInput />
-      <FilterToggle>
-        <span className='filter-toggle__text'>Короткометражки</span>
-      </FilterToggle>
-    </div>
+    <section className='search-block'>
+      <SearchForm />
+    </section>
   );
 }
 

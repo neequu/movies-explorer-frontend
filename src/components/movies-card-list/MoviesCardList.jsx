@@ -7,11 +7,11 @@ function MoviesCardList({ children, limit = null }) {
   return (
     <>
       <section className='movies-card-list'>
-        <div className='movies-card-list__grid'>
+        <ul className='movies-card-list__grid'>
           {moviesToShow.map((x) => (
             <MoviesCard key={x.image} img={x.image} name={x.name} />
           ))}
-        </div>
+        </ul>
         <div className='movies-card-list__footer'>{children}</div>
       </section>
     </>

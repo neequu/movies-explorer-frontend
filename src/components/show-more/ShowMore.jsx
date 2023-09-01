@@ -1,5 +1,9 @@
 function ShowMore() {
-  return <button className='show-more__button'>Ещё</button>;
+  return (
+    <button type='button' className='show-more-button'>
+      Ещё
+    </button>
+  );
 }
 
 export default ShowMore;

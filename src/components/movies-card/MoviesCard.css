@@ -16,13 +16,21 @@
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.125rem;
+  flex: 4;
 
   margin: 0;
+}
+.movies-card__link {
+  font: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 .movies-card__time {
   color: var(--gray-600);
   font-size: 0.625rem;
   line-height: 1.125rem;  
+  flex: 1;
+  text-align: right;
 }
 .movies-card__button {
   font-family: 'Inter', Arial, sans-serif;

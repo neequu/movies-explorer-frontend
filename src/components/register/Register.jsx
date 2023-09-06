@@ -1,11 +1,11 @@
 import AuthForm from 'components/auth-form/AuthForm';
 import AuthPage from 'components/auth-page/AuthPage';
 
-function Register({ authorize }) {
+function Register({ handleRegister, error }) {
   return (
     <>
       <AuthPage heading='Добро пожаловать!'>
-        <AuthForm authorize={authorize} />
+        <AuthForm handleSubmit={handleRegister} responseError={error} />
       </AuthPage>
     </>
   );

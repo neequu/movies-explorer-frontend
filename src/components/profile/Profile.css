@@ -62,7 +62,8 @@
   margin: 0;
   font-size: 0.6875rem;
   font-weight: 500;
-  border-radius: 0.5rem;
+  border-radius: 0.1rem;
+  color: inherit;
 
   transition: color 250ms;
   flex: 1;
@@ -82,14 +83,21 @@
 
   align-self: end;
 }
-
+.profile__message{
+  color: inherit;
+  text-align: center;
+  font-size: 0.6875rem;
+}
+.profile__message_error {
+  color: #FF004C;
+}
 .profile__button {
   margin: 0;
   padding: 0;
   border: 0;
   font-family: 'Inter', Arial, sans-serif;
 
-
+  color: inherit;
   background-color: transparent;
 
   font-size: 0.75rem;

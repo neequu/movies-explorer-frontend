@@ -1,10 +1,10 @@
 import AuthForm from 'components/auth-form/AuthForm';
 import AuthPage from 'components/auth-page/AuthPage';
 
-function Login({ authorize }) {
+function Login({ handleLogin, error }) {
   return (
     <AuthPage heading='Рады видеть!'>
-      <AuthForm authorize={authorize} />
+      <AuthForm handleSubmit={handleLogin} responseError={error} />
     </AuthPage>
   );
 }

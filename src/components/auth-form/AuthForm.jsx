@@ -1,15 +1,15 @@
 import AuthFormItem from 'components/auth-form-item/AuthFormItem';
-import { useValidate, useDisable } from 'utils/useValidate.js';
+import { useValidate, useDisable } from 'utils/validate.js';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
-function AuthForm({ authorize }) {
+function AuthForm({ handleSubmit, responseError }) {
   const { values, error, handleChange } = useValidate();
   const { disabled, validateInputs } = useDisable();
 
-  const handleSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    authorize();
+    handleSubmit(values);
   };
 
   // button
@@ -39,20 +39,23 @@ function AuthForm({ authorize }) {
   }, [error]);
 
   return (
-    <form id='auth-form' className='auth-form' onSubmit={handleSubmit}>
+    <form id='auth-form' className='auth-form' onSubmit={handleFormSubmit}>
       <fieldset ref={formInputs} className='auth-form__container'>
-        <AuthFormItem
-          onChange={handleChange}
-          errorMsg={error.name}
-          value={values.name || ''}
-          label='Имя'
-          name='name'
-          type='text'
-          required
-          minLength={2}
-          autoComplete='username'
-          placeholder='Имя'
-        />
+        {pathname === '/signup' && (
+          <AuthFormItem
+            onChange={handleChange}
+            errorMsg={error.name}
+            value={values.name || ''}
+            label='Имя'
+            name='name'
+            type='text'
+            required
+            minLength={2}
+            autoComplete='username'
+            placeholder='Имя'
+          />
+        )}
+
         <AuthFormItem
           onChange={handleChange}
           errorMsg={error.email}
@@ -64,22 +67,25 @@ function AuthForm({ authorize }) {
           autoComplete='email'
           placeholder='E-mail'
         />
-        {pathname === '/signup' && (
-          <AuthFormItem
-            onChange={handleChange}
-            errorMsg={error.password}
-            value={values.password || ''}
-            label='Пароль'
-            type='password'
-            name='password'
-            required
-            minLength={5}
-            autoComplete='current-password'
-            placeholder='Пароль'
-          />
-        )}
+        <AuthFormItem
+          onChange={handleChange}
+          errorMsg={error.password}
+          value={values.password || ''}
+          label='Пароль'
+          type='password'
+          name='password'
+          required
+          minLength={5}
+          autoComplete='current-password'
+          placeholder='Пароль'
+        />
       </fieldset>
       <div className='auth-form__footer'>
+        {responseError && (
+          <span className='auth-form__error-message'>
+            При попытке авторизации произошла ошибка.
+          </span>
+        )}
         <button
           type='submit'
           className={`auth-form__button ${

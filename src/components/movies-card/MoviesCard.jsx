@@ -1,36 +1,51 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
-function MoviesCard({ img, name }) {
-  const [saved, setSaved] = useState(false);
-  const handleClick = () => {
-    setSaved((p) => !p);
-  };
-
+import { formatTime } from 'utils/constants';
+function MoviesCard({ movieData, saveMovie, unsaveMovie, savedMovies }) {
   const { pathname } = useLocation();
+  const { movieId, nameRU, duration, image, trailerLink } = movieData;
+
+  const newTime = formatTime(duration);
+
+  const isLiked = savedMovies.find((m) => m.movieId === movieId);
+
+  function handleButtonClick() {
+    isLiked ? unsaveMovie(movieId) : saveMovie(movieData);
+  }
 
   return (
-    <li className='movies-card'>
-      <div className='movies-card__top'>
-        <h2 className='movies-card__title'>В погоне за Бенкси</h2>
-        <span className='movies-card__time'>0ч 42м</span>
-      </div>
-      <img loading='lazy' src={img} alt={name} className='movies-card__image' />
+    <li className='movies-card' title={nameRU}>
+      <a
+        target='_blank'
+        rel='noreferrer'
+        className='movies-card__link'
+        href={trailerLink}>
+        <div className='movies-card__top'>
+          <h2 className='movies-card__title'>{nameRU}</h2>
+          <span className='movies-card__time'>{newTime}</span>
+        </div>
+        <img
+          loading='lazy'
+          src={image}
+          alt={nameRU}
+          className='movies-card__image'
+        />
+      </a>
+
       {pathname === '/movies' && (
         <button
           type='button'
-          onClick={handleClick}
+          onClick={handleButtonClick}
           className={`movies-card__button ${
-            saved ? 'movies-card__button_saved' : ''
+            isLiked ? 'movies-card__button_saved' : ''
           }`}>
-          {!saved && <span>Сохранить</span>}
+          {!isLiked && <span>Сохранить</span>}
         </button>
       )}
 
       {pathname === '/saved-movies' && (
         <button
           type='button'
-          onClick={handleClick}
+          onClick={() => unsaveMovie(movieId)}
           className='movies-card__button movies-card__button_remove'></button>
       )}
     </li>

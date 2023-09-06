@@ -2,7 +2,7 @@ import logo from 'images/logo.svg';
 import { Link, useLocation } from 'react-router-dom/dist';
 import TheNavbar from 'components/the-navbar/TheNavbar';
 
-function TheHeader({ changeActive, auth }) {
+function TheHeader({ changeActive, isLoggedIn }) {
   const { pathname } = useLocation();
   return (
     <header className={`header ${pathname === '/' ? 'header_accent' : ''}`}>
@@ -16,7 +16,7 @@ function TheHeader({ changeActive, auth }) {
           />
         </Link>
 
-        {auth ? (
+        {isLoggedIn ? (
           <>
             <button
               type='button'

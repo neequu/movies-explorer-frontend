@@ -28,5 +28,5 @@ export function useDisable() {
     setDisabled(!allValid);
   };
 
-  return { disabled, validateInputs };
+  return { disabled, validateInputs, setDisabled };
 }

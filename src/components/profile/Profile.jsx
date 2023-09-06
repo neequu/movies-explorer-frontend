@@ -1,20 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import { useValidate, useDisable } from 'utils/useValidate';
+import { CurrentUserContext } from 'contexts/CurrentUserContext';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { getToken } from 'utils/constants';
+import { editCurrentUserInfo } from 'utils/mainApi';
+import { useValidate, useDisable } from 'utils/validate';
 
-function Profile({ unathorize }) {
+function Profile({ signOut }) {
   const [isEditing, setEditing] = useState(false);
+  const [updateError, setUpdateError] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const { name: defaultName, email: defaultEmail } =
+    useContext(CurrentUserContext);
+
+  async function handleUpdateUserInfo() {
+    const jwt = getToken();
+    setUpdateError(false);
+    try {
+      const { name = defaultName, email = defaultEmail } = values;
+      await editCurrentUserInfo(jwt, { name, email });
+      setEditing(false);
+      setUpdateSuccess(true);
+    } catch (e) {
+      console.log(e);
+      setUpdateError(true);
+      setUpdateSuccess(false);
+      setDisabled(true);
+    } finally {
+      setDisabled(true);
+      setTimeout(() => {
+        setUpdateSuccess(false);
+      }, 2000);
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setEditing(false);
-  }
-
-  function editing() {
-    setEditing(true);
+    handleUpdateUserInfo();
   }
 
   const { values, error, handleChange } = useValidate();
-  const { disabled, validateInputs } = useDisable();
+  const { disabled, validateInputs, setDisabled } = useDisable();
 
   const fields = useRef(null);
   useEffect(() => {
@@ -25,13 +49,13 @@ function Profile({ unathorize }) {
     <section className='profile'>
       <form className='profile__container' onSubmit={handleSubmit}>
         <div>
-          <h1 className='profile__heading'>Привет, Виталий!</h1>
+          <h1 className='profile__heading'>Привет, {defaultName}!</h1>
           <fieldset className='profile__content' ref={fields}>
             <div className='profile__item'>
               <label className='profile__label'>Имя</label>
               <input
                 onChange={handleChange}
-                value={values.name ?? 'Виталий'}
+                value={values.name ?? defaultName ?? ''}
                 type='text'
                 className='profile__input'
                 disabled={!isEditing}
@@ -45,7 +69,7 @@ function Profile({ unathorize }) {
               <label className='profile__label'>E-mail</label>
               <input
                 onChange={handleChange}
-                value={values.email ?? 'pochta@yandex.ru'}
+                value={values.email ?? defaultEmail ?? ''}
                 type='email'
                 className='profile__input'
                 disabled={!isEditing}
@@ -57,6 +81,14 @@ function Profile({ unathorize }) {
           </fieldset>
         </div>
         <div className='profile__footer'>
+          {updateSuccess && (
+            <span className='profile__message'>Данные успешно обновлены.</span>
+          )}
+          {updateError && (
+            <span className='profile__message_error'>
+              При попытке авторизации произошла ошибка.
+            </span>
+          )}
           {isEditing ? (
             <>
               <button
@@ -73,13 +105,13 @@ function Profile({ unathorize }) {
               <button
                 type='button'
                 className='profile__button profile__button_red'
-                onClick={unathorize}>
+                onClick={signOut}>
                 Выйти из аккаунта
               </button>
               <button
                 type='button'
                 className='profile__button'
-                onClick={editing}>
+                onClick={() => setEditing(true)}>
                 Редактировать
               </button>
             </>

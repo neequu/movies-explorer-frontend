@@ -1,31 +1,3 @@
-import movie from 'images/movie.png';
-import movie2 from 'images/movie2.png';
-import movie3 from 'images/movie3.png';
-import movie4 from 'images/movie4.png';
-import movie5 from 'images/movie5.png';
-import movie6 from 'images/movie6.png';
-import movie7 from 'images/movie7.png';
-import movie8 from 'images/movie8.png';
-import movie9 from 'images/movie9.png';
-import movie10 from 'images/movie10.png';
-import movie11 from 'images/movie11.png';
-import movie12 from 'images/movie12.png';
-
-export const movies = [
-  { name: '1', image: movie },
-  { name: '2', image: movie2 },
-  { name: '3', image: movie3 },
-  { name: '4', image: movie4 },
-  { name: '5', image: movie5 },
-  { name: '6', image: movie6 },
-  { name: '7', image: movie7 },
-  { name: '8', image: movie8 },
-  { name: '9', image: movie9 },
-  { name: '10', image: movie10 },
-  { name: '11', image: movie11 },
-  { name: '12', image: movie12 },
-];
-
 export const tech = [
   'HTML',
   'CSS',
@@ -41,3 +13,54 @@ export const projects = [
   { name: 'Адаптивный сайт', link: 'https://niccc0.github.io/russian-travel/' },
   { name: 'Одностраничное приложение', link: 'http://neequu.nomoreparties.co' },
 ];
+
+export const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+export const BASE_URL = 'https://api.nomoreparties.co';
+export const BASE_API_URL = 'https://api.moovees.nomoredomainsicu.ru';
+
+export function checkResponse(res) {
+  if (res.ok) return res.json();
+
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+export function formatTime(duration) {
+  const hours = Math.floor(duration / 60);
+  const mins = duration - hours * 60;
+
+  const formattedMins = mins > 9 && mins > 0 ? mins : `0${mins}`;
+  return `${hours}ч ${formattedMins}м`;
+}
+
+export function saveToken(jwt) {
+  localStorage.setItem('jwt', jwt);
+}
+
+export function getToken() {
+  return localStorage.getItem('jwt');
+}
+
+export function getMovieFields(movie) {
+  const fields = {
+    movieId: movie.id,
+    nameRU: movie.nameRU,
+    nameEN: movie.nameEN,
+    country: movie.country,
+    year: movie.year,
+    director: movie.director,
+    duration: movie.duration,
+    description: movie.description,
+    trailerLink: movie.trailerLink,
+    image: BASE_URL + movie.image?.url,
+    thumbnail: BASE_URL + movie.image?.formats?.thumbnail?.url,
+  };
+  return fields;
+}
+
+export function getLocalStorageValues() {
+  const defaultInputValue = localStorage.getItem('queryStored') || '';
+  const defaultFilterValue =
+    JSON.parse(localStorage.getItem('filteredStored')) || false;
+
+  return { defaultFilterValue, defaultInputValue };
+}

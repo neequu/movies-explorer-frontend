@@ -1,17 +1,16 @@
 import { useLocation } from 'react-router-dom';
-import { formatTime } from 'utils/constants';
+import { formatTime } from 'utils/utils.js';
 function MoviesCard({ movieData, saveMovie, unsaveMovie, savedMovies }) {
   const { pathname } = useLocation();
   const { movieId, nameRU, duration, image, trailerLink } = movieData;
 
   const newTime = formatTime(duration);
 
-  const isLiked = savedMovies.find((m) => m.movieId === movieId);
+  const isLiked = savedMovies?.find((m) => m.movieId === movieId);
 
   function handleButtonClick() {
     isLiked ? unsaveMovie(movieId) : saveMovie(movieData);
   }
-
   return (
     <li className='movies-card' title={nameRU}>
       <a

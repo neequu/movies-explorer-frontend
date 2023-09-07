@@ -1,25 +1,42 @@
 import FilterToggle from 'components/filter-toggle/FilterToggle.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getLocalStorageValues } from 'utils/utils.js';
 import { useValidate } from 'utils/validate';
 
-function SearchForm({ filterMovies, defaultInput, defaultFilter }) {
-  const { values, error, handleChange } = useValidate();
-  const [filtered, setFiltered] = useState(defaultFilter);
+function SearchForm({ setParams }) {
+  const { pathname } = useLocation();
+  const { defaultFilterValue, defaultInputValue } = getLocalStorageValues();
+  const filterValue = pathname === '/movies' ? defaultFilterValue : false;
+  const inputValue = pathname === '/movies' ? defaultInputValue : '';
+  const { values, handleChange } = useValidate(inputValue);
+  const [filtered, setFiltered] = useState(filterValue);
+
+  function reqFilter() {
+    setParams({ query: values.query, filtered });
+  }
+
+  useEffect(() => {
+    reqFilter();
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
-    filterMovies(filtered, defaultInput || values?.query);
+    reqFilter();
   }
 
   function handleFilter(e) {
-    localStorage.setItem('filteredStored', e.target.checked);
+    if (pathname === '/movies') {
+      localStorage.setItem('filteredStored', e.target.checked);
+    }
     setFiltered(e.target.checked);
   }
   function handleInput(e) {
-    localStorage.setItem('queryStored', e.target.value || '');
+    if (pathname === '/movies') {
+      localStorage.setItem('queryStored', e.target.value || '');
+    }
     handleChange(e);
   }
-
   return (
     <section className='search'>
       <form className='search-form' onSubmit={handleSubmit}>
@@ -27,7 +44,7 @@ function SearchForm({ filterMovies, defaultInput, defaultFilter }) {
           <input
             onChange={handleInput}
             value={values.name}
-            defaultValue={defaultInput}
+            defaultValue={pathname === '/movies' ? defaultInputValue : ''}
             type='text'
             placeholder='Фильм'
             className='search-form__input'
@@ -38,7 +55,10 @@ function SearchForm({ filterMovies, defaultInput, defaultFilter }) {
             Поиск
           </button>
         </fieldset>
-        <FilterToggle handleFilter={handleFilter}>
+        <FilterToggle
+          handleFilter={handleFilter}
+          pathname={pathname}
+          setFiltered={setFiltered}>
           <span className='filter-toggle__text'>Короткометражки</span>
         </FilterToggle>
       </form>

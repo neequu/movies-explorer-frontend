@@ -1,4 +1,5 @@
-import { BASE_API_URL, checkResponse } from './constants';
+import { BASE_API_URL } from './constants';
+import { checkResponse } from './utils';
 
 async function request(endpoint, options) {
   const res = await fetch(`${BASE_API_URL}${endpoint}`, options);

@@ -1,10 +1,8 @@
-function ShowMore({ showMore, noMoreItems }) {
+function ShowMore({ showMore }) {
   return (
-    !noMoreItems && (
-      <button type='button' className='show-more-button' onClick={showMore}>
-        Ещё
-      </button>
-    )
+    <button type='button' className='show-more-button' onClick={showMore}>
+      Ещё
+    </button>
   );
 }
 

@@ -1,8 +1,8 @@
 import { CurrentUserContext } from 'contexts/CurrentUserContext';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { getToken } from 'utils/constants';
-import { editCurrentUserInfo } from 'utils/mainApi';
-import { useValidate, useDisable } from 'utils/validate';
+import { getToken } from 'utils/utils.js';
+import { editCurrentUserInfo } from 'utils/mainApi.js';
+import { useValidate, useDisable } from 'utils/validate.js';
 
 function Profile({ signOut }) {
   const [isEditing, setEditing] = useState(false);

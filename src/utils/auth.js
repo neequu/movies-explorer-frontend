@@ -1,11 +1,11 @@
-const { useState } = require('react');
-const { useNavigate } = require('react-router-dom');
-const { login, register } = require('./mainApi');
-const { saveToken } = require('./constants');
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login, register } from './mainApi';
+import { saveToken } from './utils';
 
 export default function useAuth() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [error, setError] = useState(false);
 
   function signOut() {

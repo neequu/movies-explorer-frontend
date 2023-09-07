@@ -1,5 +1,13 @@
-function FilterToggle({ children, handleFilter }) {
-  const checked = JSON.parse(localStorage.getItem('filteredStored')) || false;
+import { useEffect } from 'react';
+
+function FilterToggle({ children, handleFilter, pathname, setFiltered }) {
+  const checked =
+    pathname === '/movies'
+      ? JSON.parse(localStorage.getItem('filteredStored'))
+      : false;
+  useEffect(() => {
+    setFiltered(checked);
+  }, []);
 
   return (
     <div className='filter-toggle'>

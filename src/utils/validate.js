@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export function useValidate() {
-  const [values, setValues] = useState({});
+export function useValidate(def) {
+  const [values, setValues] = useState({ query: def });
   const [error, setError] = useState({});
 
   const handleChange = (e) => {

@@ -1,4 +1,5 @@
-import { MOVIES_API_URL, checkResponse } from './constants';
+import { MOVIES_API_URL } from './constants';
+import { checkResponse } from './utils';
 
 export async function fetchMovies() {
   try {

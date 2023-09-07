@@ -14,7 +14,6 @@ import Tech from 'components/tech/Tech.jsx';
 import Student from 'components/student/Student.jsx';
 import Portfolio from 'components/portfolio/Portfolio.jsx';
 import MoviesCardList from 'components/movies-card-list/MoviesCardList.jsx';
-import ShowMore from 'components/show-more/ShowMore.jsx';
 import NotFound from 'components/not-found/NotFound.jsx';
 import Profile from 'components/profile/Profile.jsx';
 import ProtectedRoutes from 'components/protected-routes/ProtectedRoutes.jsx';
@@ -28,78 +27,14 @@ import {
   getSavedMovies,
   saveMovie,
 } from 'utils/mainApi';
-import { getLocalStorageValues, getToken } from 'utils/constants';
-import SearchForm from 'components/search-form/SearchForm';
-import useAuth from 'utils/auth';
+import { getToken } from 'utils/utils.js';
+import SearchForm from 'components/search-form/SearchForm.jsx';
+import useAuth from 'utils/auth.js';
 
 // qq@ya.com
 // qweqwe
 
 function App() {
-  const { defaultFilterValue, defaultInputValue } = getLocalStorageValues();
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowWidth(window.innerWidth);
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const [active, setActive] = useState(false);
-  const [noResults, setNoResults] = useState(false);
-
-  const changeActive = () => {
-    setActive((p) => !p);
-  };
-
-  function applyFilters(param, query) {
-    const lowerCaseQuery = query?.toLowerCase() || '';
-    return param.toLowerCase().includes(lowerCaseQuery);
-  }
-
-  function checkLength(newMovies) {
-    setFilteredMovies(newMovies);
-    setNoResults(!newMovies?.length);
-  }
-
-  function filterMovies(filtered, query) {
-    setNoResults(false);
-    if (filtered) {
-      const newMovies = movies.filter(
-        (m) =>
-          (applyFilters(m.nameRU, query) || applyFilters(m.nameEN, query)) &&
-          m.duration <= 40
-      );
-      checkLength(newMovies);
-    } else {
-      const newMovies = movies.filter(
-        (m) => applyFilters(m.nameRU, query) || applyFilters(m.nameEN, query)
-      );
-      checkLength(newMovies);
-    }
-  }
-
-  const [movies, setMovies] = useState(null);
-  const [filteredMovies, setFilteredMovies] = useState(null);
-  useEffect(() => {
-    if (!movies) return;
-    setFilteredMovies(movies);
-
-    const { defaultFilterValue, defaultInputValue } = getLocalStorageValues();
-
-    filterMovies(defaultFilterValue, defaultInputValue);
-  }, [movies]);
-  const [savedMovies, setSavedMovies] = useState([]);
-
-  const [currentUser, setCurrentUser] = useState({});
-
   const {
     signOut,
     handleLogin,
@@ -108,6 +43,21 @@ function App() {
     isLoggedIn,
     setIsLoggedIn,
   } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+  // movies
+  const [movies, setMovies] = useState(null);
+  const [savedMovies, setSavedMovies] = useState(null);
+  const [params, setParams] = useState({ query: '', filter: false });
+  // error
+  const [errorFetching, setErrorFetching] = useState(false);
+  // user
+  const [currentUser, setCurrentUser] = useState({});
+  // active menu
+  const [active, setActive] = useState(false);
+  const changeActive = () => {
+    setActive((p) => !p);
+  };
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -127,58 +77,22 @@ function App() {
       }
     }
 
-    async function reqSavedMovies() {
+    async function reqMovies() {
+      setErrorFetching(false);
+      const jwt = getToken();
       try {
         const res = await getSavedMovies(jwt);
-        if (!res.length) return;
         setSavedMovies(res);
       } catch (e) {
         console.log(e);
+        setErrorFetching(true);
+      } finally {
       }
     }
 
+    reqMovies();
     auth();
-    reqSavedMovies();
   }, [isLoggedIn]);
-
-  // movies
-  const [moviesToShow, setMoviesToShow] = useState(null);
-
-  // const [limit, setLimit] = useState(6);
-  // const [limitStep, setLimitStep] = useState(3);
-  // const [noMoreItems, setNoMoreItems] = useState(false);
-
-  useEffect(() => {
-    if (!filteredMovies || !filteredMovies?.length) return;
-    // setMoviesToShow(filteredMovies?.slice(0, limit));
-    // setMoviesToShow(filteredMovies.slice(0, 6));
-    // checkForItems();
-  }, [filteredMovies]);
-
-  // const sliceMovies = (target) => {
-  //   return filteredMovies.slice(moviesToShow?.length, target);
-  // };
-
-  // function checkForItems() {
-  //   if (filteredMovies?.length - moviesToShow?.length < limitStep) {
-  //     setNoMoreItems(true);
-  //   } else {
-  //     setNoMoreItems(false);
-  //   }
-  // }
-
-  // const showMore = () => {
-  //   if (filteredMovies?.length - moviesToShow?.length < limitStep) {
-  //     const newMovies = sliceMovies(filteredMovies.length);
-  //     checkForItems();
-  //     setMoviesToShow([...moviesToShow, ...newMovies]);
-  //     return;
-  //   }
-  //   const moviesToAdd = moviesToShow.length + limitStep;
-  //   const newMovies = sliceMovies(moviesToAdd);
-  //   setMoviesToShow([...moviesToShow, ...newMovies]);
-  //   setLimit(moviesToAdd);
-  // };
 
   const lookForSavedMovie = (movieId) => {
     return savedMovies.find((m) => m.movieId === movieId);
@@ -200,7 +114,6 @@ function App() {
     await deleteSavedMovieById(jwt, _id);
     setSavedMovies((p) => p.filter((m) => m.movieId !== movieId));
   }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Routes>
@@ -248,20 +161,21 @@ function App() {
                 />
                 <Main>
                   <SearchForm
-                    filterMovies={filterMovies}
-                    defaultInput={defaultInputValue}
-                    defaultFilter={defaultFilterValue}
+                    key='movies-form'
+                    moviesData={movies}
+                    setParams={setParams}
                   />
-                  <MoviesCardList>
+                  <MoviesCardList
+                    errorFetching={errorFetching}
+                    moviesData={movies}
+                    params={params}>
                     <Movies
-                      moviesData={filteredMovies}
+                      setErrorFetching={setErrorFetching}
                       saveMovie={addMovieToSavedList}
                       unsaveMovie={removeMovieFromSavedList}
                       setMovies={setMovies}
                       savedMovies={savedMovies}
-                      noResults={noResults}>
-                      {/* <ShowMore showMore={showMore} noMoreItems={noMoreItems} /> */}
-                    </Movies>
+                    />
                   </MoviesCardList>
                 </Main>
                 <TheFooter />
@@ -278,13 +192,15 @@ function App() {
                 />
                 <Main>
                   <SearchForm
-                    filterMovies={filterMovies}
-                    defaultFilter={false}
-                    defaultInput=''
+                    key='saved-movies-form'
+                    moviesData={savedMovies}
+                    setParams={setParams}
                   />
-                  <MoviesCardList>
+                  <MoviesCardList
+                    moviesData={savedMovies}
+                    errorFetching={errorFetching}
+                    params={params}>
                     <SavedMovies
-                      savedMovies={savedMovies}
                       unsaveMovie={removeMovieFromSavedList}
                       setSavedMovies={setSavedMovies}
                     />

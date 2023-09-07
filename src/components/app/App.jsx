@@ -168,7 +168,8 @@ function App() {
                   <MoviesCardList
                     errorFetching={errorFetching}
                     moviesData={movies}
-                    params={params}>
+                    params={params}
+                    key='movies'>
                     <Movies
                       setErrorFetching={setErrorFetching}
                       saveMovie={addMovieToSavedList}
@@ -199,7 +200,8 @@ function App() {
                   <MoviesCardList
                     moviesData={savedMovies}
                     errorFetching={errorFetching}
-                    params={params}>
+                    params={params}
+                    key='movies-saved'>
                     <SavedMovies
                       unsaveMovie={removeMovieFromSavedList}
                       setSavedMovies={setSavedMovies}

@@ -79,6 +79,7 @@
 .movies-card__image {
   width: 100%;
   height: 168px;
+  object-fit: cover;
 }
 @keyframes scaleOnClick {
   0% { scale: 1; }

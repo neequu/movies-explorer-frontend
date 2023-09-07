@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { formatTime } from 'utils/utils.js';
 function MoviesCard({ movieData, saveMovie, unsaveMovie, savedMovies }) {
@@ -11,6 +12,7 @@ function MoviesCard({ movieData, saveMovie, unsaveMovie, savedMovies }) {
   function handleButtonClick() {
     isLiked ? unsaveMovie(movieId) : saveMovie(movieData);
   }
+
   return (
     <li className='movies-card' title={nameRU}>
       <a

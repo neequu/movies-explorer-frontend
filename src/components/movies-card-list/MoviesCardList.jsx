@@ -59,8 +59,6 @@ function MoviesCardList({ children, errorFetching, moviesData, params }) {
       return [...prevMovies, ...filteredMovies.slice(start, end)];
     });
   }
-  console.log(noMoreItems);
-
   return (
     <>
       <section className='movies-card-list'>

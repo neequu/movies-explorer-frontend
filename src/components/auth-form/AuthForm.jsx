@@ -1,5 +1,5 @@
 import AuthFormItem from 'components/auth-form-item/AuthFormItem';
-import { useValidate, useDisable } from 'utils/validate.js';
+import { useValidate, useDisable } from 'hooks/validate.js';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 

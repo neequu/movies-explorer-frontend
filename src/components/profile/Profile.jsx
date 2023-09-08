@@ -2,7 +2,7 @@ import { CurrentUserContext } from 'contexts/CurrentUserContext';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { getToken } from 'utils/utils.js';
 import { editCurrentUserInfo } from 'utils/mainApi.js';
-import { useValidate, useDisable } from 'utils/validate.js';
+import { useValidate, useDisable } from 'hooks/validate.js';
 
 function Profile({ signOut }) {
   const [isEditing, setEditing] = useState(false);
@@ -10,6 +10,10 @@ function Profile({ signOut }) {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const { name: defaultName, email: defaultEmail } =
     useContext(CurrentUserContext);
+
+  const { values, error, handleChange, setValues } = useValidate();
+  const { disabled, validateInputs, setDisabled } = useDisable();
+  const fields = useRef(null);
 
   async function handleUpdateUserInfo() {
     const jwt = getToken();
@@ -37,19 +41,27 @@ function Profile({ signOut }) {
     handleUpdateUserInfo();
   }
 
-  const { values, error, handleChange } = useValidate();
-  const { disabled, validateInputs, setDisabled } = useDisable();
+  useEffect(() => {
+    setValues({ name: defaultName, email: defaultEmail });
+  }, []);
 
-  const fields = useRef(null);
   useEffect(() => {
     validateInputs(error, fields.current.elements);
-  }, [error]);
+    if (
+      JSON.stringify(values) ===
+      JSON.stringify({ name: defaultName, email: defaultEmail })
+    ) {
+      setDisabled(true);
+    }
+  }, [error, values]);
 
   return (
     <section className='profile'>
       <form className='profile__container' onSubmit={handleSubmit}>
         <div>
-          <h1 className='profile__heading'>Привет, {defaultName}!</h1>
+          <h1 className='profile__heading'>
+            Привет, {(!isEditing && values.name) || defaultName}!
+          </h1>
           <fieldset className='profile__content' ref={fields}>
             <div className='profile__item'>
               <label className='profile__label'>Имя</label>
@@ -98,6 +110,13 @@ function Profile({ signOut }) {
                 }`}
                 disabled={disabled}>
                 Сохранить
+              </button>
+
+              <button
+                type='button'
+                className='profile__button profile__button_red'
+                onClick={() => setEditing(false)}>
+                Отмена
               </button>
             </>
           ) : (

@@ -2,14 +2,14 @@ import FilterToggle from 'components/filter-toggle/FilterToggle.jsx';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getLocalStorageValues } from 'utils/utils.js';
-import { useValidate } from 'utils/validate';
+import { useValidate } from 'hooks/validate.js';
 
 function SearchForm({ setParams }) {
   const { pathname } = useLocation();
   const { defaultFilterValue, defaultInputValue } = getLocalStorageValues();
   const filterValue = pathname === '/movies' ? defaultFilterValue : false;
   const inputValue = pathname === '/movies' ? defaultInputValue : '';
-  const { values, handleChange } = useValidate(inputValue);
+  const { values, handleChange } = useValidate();
   const [filtered, setFiltered] = useState(filterValue);
 
   function reqFilter() {
@@ -18,6 +18,7 @@ function SearchForm({ setParams }) {
 
   useEffect(() => {
     reqFilter();
+    values.query = inputValue;
   }, []);
 
   function handleSubmit(e) {

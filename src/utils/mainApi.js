@@ -46,7 +46,6 @@ export async function getCurrentUserInfo(jwt) {
   });
 }
 export async function editCurrentUserInfo(jwt, data) {
-  console.log(data);
   return await request(`/users/me`, {
     method: 'PATCH',
     body: JSON.stringify(data),

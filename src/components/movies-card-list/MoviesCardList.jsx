@@ -3,7 +3,13 @@ import ShowMore from 'components/show-more/ShowMore';
 import { cloneElement, useEffect, useState } from 'react';
 import filterMovies from 'utils/movies';
 
-function MoviesCardList({ children, errorFetching, moviesData, params }) {
+function MoviesCardList({
+  moviesData,
+  errorFetching,
+  params,
+  loading,
+  children,
+}) {
   const { filteredMovies } = filterMovies(
     moviesData,
     params.filtered,
@@ -19,27 +25,30 @@ function MoviesCardList({ children, errorFetching, moviesData, params }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    function handleResize() {
+    async function handleResize() {
       setWindowWidth(window.innerWidth);
+
+      if (windowWidth < 768) {
+        setLimitAddStep(1);
+        setVisibleLimit(4);
+      } else if (windowWidth >= 768 && windowWidth < 1280) {
+        setLimitAddStep(2);
+        setVisibleLimit(8);
+      } else {
+        setLimitAddStep(3);
+        setVisibleLimit(12);
+      }
+
+      await new Promise((r) => setTimeout(r, 1000));
+      console.log(window.innerWidth);
     }
 
     window.addEventListener('resize', handleResize);
 
-    if (windowWidth < 768) {
-      setLimitAddStep(1);
-      setVisibleLimit(4);
-    } else if (windowWidth > 768 && windowWidth < 1280) {
-      setLimitAddStep(2);
-      setVisibleLimit(8);
-    } else {
-      setLimitAddStep(3);
-      setVisibleLimit(12);
-    }
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [windowWidth]);
 
   useEffect(() => {
     if (!filteredMovies) return;
@@ -62,7 +71,7 @@ function MoviesCardList({ children, errorFetching, moviesData, params }) {
   return (
     <>
       <section className='movies-card-list'>
-        {true ? (
+        {!loading ? (
           <>
             {!noResults && (
               <ul className='movies-card-list__grid'>

@@ -4,23 +4,25 @@ import { getMovieFields } from 'utils/utils.js';
 import { fetchMovies } from 'utils/moviesApi.js';
 
 function Movies({
+  setErrorFetching,
   saveMovie,
   unsaveMovie,
   setMovies,
+  savedMovies,
+  setLoading,
 
   moviesData,
-  savedMovies,
-  setErrorFetching,
 }) {
   useEffect(() => {
+    setLoading(true);
     async function reqMovies() {
       setErrorFetching(false);
       const searchedMovies = localStorage.getItem('searched-movies');
       if (searchedMovies) {
         setMovies(JSON.parse(searchedMovies));
+        setLoading(false);
         return;
       }
-      console.log('fetch');
       try {
         const res = await fetchMovies();
         localStorage.setItem('searched-movies', JSON.stringify(res));
@@ -29,6 +31,8 @@ function Movies({
       } catch (e) {
         console.log(e);
         setErrorFetching(true);
+      } finally {
+        setLoading(false);
       }
     }
     reqMovies();

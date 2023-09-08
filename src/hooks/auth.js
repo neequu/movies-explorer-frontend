@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, register } from './mainApi';
-import { saveToken } from './utils';
+import { login, register } from '../utils/mainApi';
+import { saveToken } from '../utils/utils';
 
 export default function useAuth() {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ export default function useAuth() {
       const { email, password } = formData;
       handleLogin({ email, password });
     } catch (e) {
-      console.log(e);
       setError(true);
     }
   }

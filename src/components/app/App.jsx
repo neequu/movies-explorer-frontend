@@ -29,7 +29,7 @@ import {
 } from 'utils/mainApi';
 import { getToken } from 'utils/utils.js';
 import SearchForm from 'components/search-form/SearchForm.jsx';
-import useAuth from 'utils/auth.js';
+import useAuth from 'hooks/auth.js';
 
 // qq@ya.com
 // qweqwe
@@ -62,22 +62,26 @@ function App() {
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) return;
-    setIsLoggedIn(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isLoggedIn) return;
-    const jwt = getToken();
     async function auth() {
       try {
         const user = await getCurrentUserInfo(jwt);
         setCurrentUser(user);
       } catch (e) {
-        console.log(e);
+        console.log(e === 'Ошибка: 401');
+        setIsLoggedIn(false);
+        return;
       }
+      setIsLoggedIn(true);
     }
 
+    auth();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
     async function reqMovies() {
+      setLoading(true);
       setErrorFetching(false);
       const jwt = getToken();
       try {
@@ -87,11 +91,11 @@ function App() {
         console.log(e);
         setErrorFetching(true);
       } finally {
+        setLoading(false);
       }
     }
 
     reqMovies();
-    auth();
   }, [isLoggedIn]);
 
   const lookForSavedMovie = (movieId) => {
@@ -160,22 +164,20 @@ function App() {
                   changeActive={changeActive}
                 />
                 <Main>
-                  <SearchForm
-                    key='movies-form'
-                    moviesData={movies}
-                    setParams={setParams}
-                  />
+                  <SearchForm key='movies-form' setParams={setParams} />
                   <MoviesCardList
-                    errorFetching={errorFetching}
                     moviesData={movies}
+                    errorFetching={errorFetching}
                     params={params}
-                    key='movies'>
+                    key='movies'
+                    loading={loading}>
                     <Movies
                       setErrorFetching={setErrorFetching}
                       saveMovie={addMovieToSavedList}
                       unsaveMovie={removeMovieFromSavedList}
                       setMovies={setMovies}
                       savedMovies={savedMovies}
+                      setLoading={setLoading}
                     />
                   </MoviesCardList>
                 </Main>
@@ -192,20 +194,14 @@ function App() {
                   changeActive={changeActive}
                 />
                 <Main>
-                  <SearchForm
-                    key='saved-movies-form'
-                    moviesData={savedMovies}
-                    setParams={setParams}
-                  />
+                  <SearchForm key='saved-movies-form' setParams={setParams} />
                   <MoviesCardList
                     moviesData={savedMovies}
                     errorFetching={errorFetching}
                     params={params}
-                    key='movies-saved'>
-                    <SavedMovies
-                      unsaveMovie={removeMovieFromSavedList}
-                      setSavedMovies={setSavedMovies}
-                    />
+                    key='movies-saved'
+                    loading={loading}>
+                    <SavedMovies unsaveMovie={removeMovieFromSavedList} />
                   </MoviesCardList>
                 </Main>
                 <TheFooter />

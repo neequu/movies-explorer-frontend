@@ -17,7 +17,11 @@ function SearchForm({ setParams }) {
   }
 
   useEffect(() => {
-    reqFilter();
+    if (pathname === '/movies') {
+      setParams({ query: defaultInputValue, filtered: defaultFilterValue });
+    } else {
+      reqFilter();
+    }
     values.query = inputValue;
   }, []);
 

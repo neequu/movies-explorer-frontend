@@ -61,23 +61,20 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    if (!jwt) return;
     async function auth() {
       try {
         const user = await getCurrentUserInfo(jwt);
         setCurrentUser(user);
       } catch (e) {
-        console.log(e === 'Ошибка: 401');
-        setIsLoggedIn(false);
+        if (e === 'Ошибка: 401') {
+          setIsLoggedIn(false);
+        }
         return;
       }
       setIsLoggedIn(true);
     }
 
     auth();
-  }, []);
-
-  useEffect(() => {
     if (!isLoggedIn) return;
 
     async function reqMovies() {

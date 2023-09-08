@@ -40,7 +40,6 @@ function MoviesCardList({
       }
 
       await new Promise((r) => setTimeout(r, 1000));
-      console.log(window.innerWidth);
     }
 
     window.addEventListener('resize', handleResize);
@@ -88,7 +87,7 @@ function MoviesCardList({
                   попробуйте ещё раз
                 </span>
               )}
-              {noResults && (
+              {params?.query && noResults && (
                 <span className='movies-card-list__message'>
                   По Вашему запросу ничего не найдено.
                 </span>

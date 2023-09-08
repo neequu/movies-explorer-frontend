@@ -98,7 +98,7 @@ function Profile({ signOut }) {
           )}
           {updateError && (
             <span className='profile__message_error'>
-              При попытке авторизации произошла ошибка.
+              При попытке редактировать профиль произошла ошибка.
             </span>
           )}
           {isEditing ? (

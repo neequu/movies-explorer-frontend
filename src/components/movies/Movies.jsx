@@ -27,7 +27,6 @@ function Movies({
         const res = await fetchMovies();
         localStorage.setItem('searched-movies', JSON.stringify(res));
         setMovies(res);
-        console.log(res);
       } catch (e) {
         console.log(e);
         setErrorFetching(true);

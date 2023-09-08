@@ -5,7 +5,7 @@ import { saveToken } from '../utils/utils';
 
 export default function useAuth() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState(false);
 
   function signOut() {

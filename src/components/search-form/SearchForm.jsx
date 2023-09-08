@@ -28,7 +28,7 @@ function SearchForm({ setParams }) {
 
   function handleFilter(e) {
     if (pathname === '/movies') {
-      localStorage.setItem('filteredStored', e.target.checked);
+      localStorage.setItem('filteredStored', e.target.checked ?? false);
     }
     setFiltered(e.target.checked);
   }

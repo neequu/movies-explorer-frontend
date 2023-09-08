@@ -10,6 +10,7 @@ function MoviesCardList({
   loading,
   children,
 }) {
+  console.log(params);
   const { filteredMovies } = filterMovies(
     moviesData,
     params.filtered,

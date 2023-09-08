@@ -55,6 +55,11 @@ function Profile({ signOut }) {
     }
   }, [error, values]);
 
+  function cancelEditing() {
+    setEditing(false);
+    setValues({ name: defaultName, email: defaultEmail });
+  }
+
   return (
     <section className='profile'>
       <form className='profile__container' onSubmit={handleSubmit}>
@@ -115,7 +120,7 @@ function Profile({ signOut }) {
               <button
                 type='button'
                 className='profile__button profile__button_red'
-                onClick={() => setEditing(false)}>
+                onClick={cancelEditing}>
                 Отмена
               </button>
             </>

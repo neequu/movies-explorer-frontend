@@ -3,7 +3,7 @@ import AuthPage from 'components/auth-page/AuthPage';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Login({ handleLogin, error, setAuthError, isLoggedIn }) {
+function Login({ handleLogin, error, setAuthError, isLoggedIn, loading }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +18,7 @@ function Login({ handleLogin, error, setAuthError, isLoggedIn }) {
         handleSubmit={handleLogin}
         responseError={error}
         setAuthError={setAuthError}
+        loading={loading}
       />
     </AuthPage>
   );

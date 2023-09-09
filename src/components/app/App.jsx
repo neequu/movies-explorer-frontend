@@ -36,6 +36,7 @@ import { fetchMovies } from 'utils/moviesApi';
 // qweqwe
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const {
     signOut,
     handleLogin,
@@ -44,9 +45,8 @@ function App() {
     isLoggedIn,
     setIsLoggedIn,
     setAuthError,
-  } = useAuth();
+  } = useAuth(setLoading);
 
-  const [loading, setLoading] = useState(false);
   // movies
   const [movies, setMovies] = useState(null);
   const [savedMovies, setSavedMovies] = useState(null);
@@ -152,6 +152,7 @@ function App() {
                 handleLogin={handleLogin}
                 setAuthError={setAuthError}
                 isLoggedIn={isLoggedIn}
+                loading={loading}
               />
             </Main>
           }
@@ -166,6 +167,7 @@ function App() {
                 handleRegister={handleRegister}
                 setAuthError={setAuthError}
                 isLoggedIn={isLoggedIn}
+                loading={loading}
               />
             </Main>
           }
@@ -175,6 +177,7 @@ function App() {
           element={
             <>
               <TheHeader isLoggedIn={isLoggedIn} changeActive={changeActive} />
+
               <Main>
                 <Hero />
                 <About />

@@ -3,7 +3,7 @@ import { useValidate, useDisable } from 'hooks/validate.js';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
-function AuthForm({ handleSubmit, responseError, setAuthError }) {
+function AuthForm({ handleSubmit, responseError, setAuthError, loading }) {
   const { values, error, handleChange } = useValidate();
   const { disabled, validateInputs } = useDisable();
 
@@ -46,7 +46,11 @@ function AuthForm({ handleSubmit, responseError, setAuthError }) {
   }, [error]);
 
   return (
-    <form id='auth-form' className='auth-form' onSubmit={handleFormSubmit}>
+    <form
+      id='auth-form'
+      className='auth-form'
+      onSubmit={handleFormSubmit}
+      disabled={loading}>
       <fieldset ref={formInputs} className='auth-form__container'>
         {pathname === '/signup' && (
           <AuthFormItem

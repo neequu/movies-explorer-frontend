@@ -3,7 +3,13 @@ import AuthPage from 'components/auth-page/AuthPage';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Register({ handleRegister, error, setAuthError, isLoggedIn }) {
+function Register({
+  handleRegister,
+  error,
+  setAuthError,
+  isLoggedIn,
+  loading,
+}) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +24,7 @@ function Register({ handleRegister, error, setAuthError, isLoggedIn }) {
         handleSubmit={handleRegister}
         responseError={error}
         setAuthError={setAuthError}
+        loading={loading}
       />
     </AuthPage>
   );

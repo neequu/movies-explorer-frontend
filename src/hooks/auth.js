@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '../utils/mainApi';
 import { saveToken } from '../utils/utils';
 
-export default function useAuth() {
+export default function useAuth(setLoading) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [authError, setAuthError] = useState(false);
@@ -16,6 +16,7 @@ export default function useAuth() {
 
   async function handleRegister(formData) {
     setAuthError(false);
+    setLoading(true);
     try {
       await register(formData);
 
@@ -23,11 +24,14 @@ export default function useAuth() {
       handleLogin({ email, password });
     } catch (e) {
       setAuthError(true);
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleLogin(formData) {
     setAuthError(false);
+    setLoading(true);
     try {
       const { token } = await login(formData);
       saveToken(token);
@@ -36,6 +40,8 @@ export default function useAuth() {
     } catch (e) {
       console.log(e);
       setAuthError(true);
+    } finally {
+      setLoading(false);
     }
   }
 

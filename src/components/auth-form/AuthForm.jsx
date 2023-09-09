@@ -3,7 +3,7 @@ import { useValidate, useDisable } from 'hooks/validate.js';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
-function AuthForm({ handleSubmit, responseError }) {
+function AuthForm({ handleSubmit, responseError, setAuthError }) {
   const { values, error, handleChange } = useValidate();
   const { disabled, validateInputs } = useDisable();
 
@@ -12,8 +12,15 @@ function AuthForm({ handleSubmit, responseError }) {
     handleSubmit(values);
   };
 
+  // reset error
+  const location = useLocation();
+
+  useEffect(() => {
+    setAuthError(false);
+  }, [location]);
+
   // button
-  const { pathname } = useLocation();
+  const { pathname } = location;
 
   function getAuthTextContent() {
     const info = { caption: '', linkText: '', linkPath: '', buttonText: '' };

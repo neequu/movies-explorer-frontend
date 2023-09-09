@@ -1,6 +1,12 @@
 import Preloader from 'components/preloader/Preloader';
 import ShowMore from 'components/show-more/ShowMore';
 import { cloneElement, useEffect, useState } from 'react';
+import {
+  MOVIES_LIMIT_LG,
+  MOVIES_LIMIT_MD,
+  MOVIES_LIMIT_SM,
+  MOVIES_LIMIT_STEP_LG,
+} from 'utils/constants';
 import filterMovies from 'utils/movies';
 
 function MoviesCardList({
@@ -9,40 +15,42 @@ function MoviesCardList({
   params,
   loading,
   children,
+  noQueryError,
 }) {
-  console.log(params);
   const { filteredMovies } = filterMovies(
     moviesData,
     params.filtered,
     params.query
   );
   const [noResults, setNoResults] = useState(false);
-  const [visibleLimit, setVisibleLimit] = useState(12);
-  const [limitAddStep, setLimitAddStep] = useState(3);
-  const [visibleMovies, setVisibleMovies] = useState(
-    filteredMovies?.slice(0, visibleLimit)
-  );
+  const [visibleLimit, setVisibleLimit] = useState(null);
+  const [limitAddStep, setLimitAddStep] = useState(null);
+  const [visibleMovies, setVisibleMovies] = useState(null);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    async function handleResize() {
-      setWindowWidth(window.innerWidth);
+  async function handleResize() {
+    setWindowWidth(window.innerWidth);
 
-      if (windowWidth < 768) {
-        setLimitAddStep(1);
-        setVisibleLimit(4);
-      } else if (windowWidth >= 768 && windowWidth < 1280) {
-        setLimitAddStep(2);
-        setVisibleLimit(8);
-      } else {
-        setLimitAddStep(3);
-        setVisibleLimit(12);
-      }
-
-      await new Promise((r) => setTimeout(r, 1000));
+    if (windowWidth < 768) {
+      setLimitAddStep(1);
+      setVisibleLimit(MOVIES_LIMIT_SM);
+    } else if (windowWidth >= 768 && windowWidth < 1280) {
+      setLimitAddStep(2);
+      setVisibleLimit(MOVIES_LIMIT_MD);
+    } else {
+      setLimitAddStep(MOVIES_LIMIT_STEP_LG);
+      setVisibleLimit(MOVIES_LIMIT_LG);
     }
 
+    await new Promise((r) => setTimeout(r, 1000));
+  }
+
+  useEffect(() => {
+    handleResize();
+  }, [windowWidth]);
+
+  useEffect(() => {
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -52,7 +60,7 @@ function MoviesCardList({
 
   useEffect(() => {
     if (!filteredMovies) return;
-    setVisibleMovies(filteredMovies.slice(0, 12));
+    setVisibleMovies(filteredMovies.slice(0, visibleLimit));
     setNoResults(filteredMovies.length === 0);
   }, [moviesData, params]);
 
@@ -69,40 +77,42 @@ function MoviesCardList({
     });
   }
   return (
-    <>
-      <section className='movies-card-list'>
-        {!loading ? (
-          <>
-            {!noResults && (
-              <ul className='movies-card-list__grid'>
-                {cloneElement(children, {
-                  moviesData: visibleMovies,
-                })}
-              </ul>
+    <section className='movies-card-list'>
+      {noQueryError && (
+        <p className='movies-card-list__message'>Нужно ввести ключевое слово</p>
+      )}
+      {!loading ? (
+        <>
+          {!noResults && (
+            <ul className='movies-card-list__grid'>
+              {cloneElement(children, {
+                moviesData: visibleMovies,
+              })}
+            </ul>
+          )}
+          <div className='movies-card-list__footer'>
+            {errorFetching && (
+              <span className='movies-card-list__message'>
+                Во время запроса произошла ошибка. Возможно, проблема с
+                соединением или сервер недоступен. Подождите немного и
+                попробуйте ещё раз
+              </span>
             )}
-            <div className='movies-card-list__footer'>
-              {errorFetching && (
-                <span className='movies-card-list__message'>
-                  Во время запроса произошла ошибка. Возможно, проблема с
-                  соединением или сервер недоступен. Подождите немного и
-                  попробуйте ещё раз
-                </span>
-              )}
-              {params?.query && noResults && (
-                <span className='movies-card-list__message'>
-                  По Вашему запросу ничего не найдено.
-                </span>
-              )}
-              {!noMoreItems && !noResults && !errorFetching && moviesData && (
-                <ShowMore showMore={showMore} />
-              )}
-            </div>
-          </>
-        ) : (
-          <Preloader />
-        )}
-      </section>
-    </>
+
+            {params?.query && noResults && (
+              <span className='movies-card-list__message'>
+                По Вашему запросу ничего не найдено.
+              </span>
+            )}
+            {!noMoreItems && !noResults && !errorFetching && moviesData && (
+              <ShowMore showMore={showMore} />
+            )}
+          </div>
+        </>
+      ) : (
+        <Preloader />
+      )}
+    </section>
   );
 }
 

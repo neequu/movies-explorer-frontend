@@ -30,6 +30,7 @@ import {
 import { getToken } from 'utils/utils.js';
 import SearchForm from 'components/search-form/SearchForm.jsx';
 import useAuth from 'hooks/auth.js';
+import { fetchMovies } from 'utils/moviesApi';
 
 // qq@ya.com
 // qweqwe
@@ -39,9 +40,10 @@ function App() {
     signOut,
     handleLogin,
     handleRegister,
-    error,
+    authError,
     isLoggedIn,
     setIsLoggedIn,
+    setAuthError,
   } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -51,6 +53,8 @@ function App() {
   const [params, setParams] = useState({ query: '', filter: false });
   // error
   const [errorFetching, setErrorFetching] = useState(false);
+  const [noQueryError, setNoQueryError] = useState(false);
+
   // user
   const [currentUser, setCurrentUser] = useState({});
   // active menu
@@ -115,6 +119,27 @@ function App() {
     await deleteSavedMovieById(jwt, _id);
     setSavedMovies((p) => p.filter((m) => m.movieId !== movieId));
   }
+
+  async function getMovies() {
+    setLoading(true);
+    setErrorFetching(false);
+    const searchedMovies = localStorage.getItem('searched-movies');
+    if (searchedMovies) {
+      setMovies(JSON.parse(searchedMovies));
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await fetchMovies();
+      localStorage.setItem('searched-movies', JSON.stringify(res));
+      setMovies(res);
+    } catch (e) {
+      console.log(e);
+      setErrorFetching(true);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Routes>
@@ -122,7 +147,12 @@ function App() {
           path='/signin'
           element={
             <Main>
-              <Login error={error} handleLogin={handleLogin} />
+              <Login
+                error={authError}
+                handleLogin={handleLogin}
+                setAuthError={setAuthError}
+                isLoggedIn={isLoggedIn}
+              />
             </Main>
           }
         />
@@ -131,7 +161,12 @@ function App() {
           path='/signup'
           element={
             <Main>
-              <Register error={error} handleRegister={handleRegister} />
+              <Register
+                error={authError}
+                handleRegister={handleRegister}
+                setAuthError={setAuthError}
+                isLoggedIn={isLoggedIn}
+              />
             </Main>
           }
         />
@@ -161,20 +196,25 @@ function App() {
                   changeActive={changeActive}
                 />
                 <Main>
-                  <SearchForm key='movies-form' setParams={setParams} />
+                  <SearchForm
+                    key='movies-form'
+                    setParams={setParams}
+                    loading={loading}
+                    getMovies={getMovies}
+                    movies={movies}
+                    setNoQueryError={setNoQueryError}
+                  />
                   <MoviesCardList
                     moviesData={movies}
                     errorFetching={errorFetching}
                     params={params}
                     key='movies'
-                    loading={loading}>
+                    loading={loading}
+                    noQueryError={noQueryError}>
                     <Movies
-                      setErrorFetching={setErrorFetching}
                       saveMovie={addMovieToSavedList}
                       unsaveMovie={removeMovieFromSavedList}
-                      setMovies={setMovies}
                       savedMovies={savedMovies}
-                      setLoading={setLoading}
                     />
                   </MoviesCardList>
                 </Main>
@@ -191,13 +231,19 @@ function App() {
                   changeActive={changeActive}
                 />
                 <Main>
-                  <SearchForm key='saved-movies-form' setParams={setParams} />
+                  <SearchForm
+                    key='saved-movies-form'
+                    setParams={setParams}
+                    loading={loading}
+                    setNoQueryError={setNoQueryError}
+                  />
                   <MoviesCardList
                     moviesData={savedMovies}
                     errorFetching={errorFetching}
                     params={params}
                     key='movies-saved'
-                    loading={loading}>
+                    loading={loading}
+                    noQueryError={noQueryError}>
                     <SavedMovies unsaveMovie={removeMovieFromSavedList} />
                   </MoviesCardList>
                 </Main>
@@ -214,7 +260,11 @@ function App() {
                   changeActive={changeActive}
                 />
                 <Main>
-                  <Profile signOut={signOut} />
+                  <Profile
+                    signOut={signOut}
+                    setLoading={setLoading}
+                    loading={loading}
+                  />
                 </Main>
               </>
             }

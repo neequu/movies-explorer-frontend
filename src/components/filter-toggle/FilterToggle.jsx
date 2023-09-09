@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 
-function FilterToggle({ children, handleFilter, pathname, setFiltered }) {
+function FilterToggle({
+  children,
+  handleFilter,
+  pathname,
+  setFiltered,
+  loading,
+}) {
   const checked =
     pathname === '/movies'
       ? JSON.parse(localStorage.getItem('filteredStored'))
@@ -18,6 +24,7 @@ function FilterToggle({ children, handleFilter, pathname, setFiltered }) {
         name='filter'
         onChange={handleFilter}
         defaultChecked={checked}
+        disabled={loading}
       />
       <label
         tabIndex='0'

@@ -4,7 +4,7 @@ import { getToken } from 'utils/utils.js';
 import { editCurrentUserInfo } from 'utils/mainApi.js';
 import { useValidate, useDisable } from 'hooks/validate.js';
 
-function Profile({ signOut }) {
+function Profile({ signOut, setLoading, loading }) {
   const [isEditing, setEditing] = useState(false);
   const [updateError, setUpdateError] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -18,6 +18,7 @@ function Profile({ signOut }) {
   async function handleUpdateUserInfo() {
     const jwt = getToken();
     setUpdateError(false);
+    setLoading(true);
     try {
       const { name = defaultName, email = defaultEmail } = values;
       await editCurrentUserInfo(jwt, { name, email });
@@ -30,6 +31,7 @@ function Profile({ signOut }) {
       setDisabled(true);
     } finally {
       setDisabled(true);
+      setLoading(false);
       setTimeout(() => {
         setUpdateSuccess(false);
       }, 2000);
@@ -75,7 +77,7 @@ function Profile({ signOut }) {
                 value={values.name ?? defaultName ?? ''}
                 type='text'
                 className='profile__input'
-                disabled={!isEditing}
+                disabled={!isEditing || loading}
                 placeholder='Имя'
                 minLength={2}
                 name='name'
@@ -89,7 +91,7 @@ function Profile({ signOut }) {
                 value={values.email ?? defaultEmail ?? ''}
                 type='email'
                 className='profile__input'
-                disabled={!isEditing}
+                disabled={!isEditing || loading}
                 placeholder='E-mail'
                 name='email'
                 required
@@ -113,7 +115,7 @@ function Profile({ signOut }) {
                 className={`${
                   disabled ? 'profile__button_disabled' : 'profile__button_save'
                 }`}
-                disabled={disabled}>
+                disabled={disabled || loading}>
                 Сохранить
               </button>
 

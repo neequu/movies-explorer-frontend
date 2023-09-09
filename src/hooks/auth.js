@@ -6,7 +6,7 @@ import { saveToken } from '../utils/utils';
 export default function useAuth() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [error, setError] = useState(false);
+  const [authError, setAuthError] = useState(false);
 
   function signOut() {
     localStorage.clear();
@@ -15,19 +15,19 @@ export default function useAuth() {
   }
 
   async function handleRegister(formData) {
-    setError(false);
+    setAuthError(false);
     try {
       await register(formData);
 
       const { email, password } = formData;
       handleLogin({ email, password });
     } catch (e) {
-      setError(true);
+      setAuthError(true);
     }
   }
 
   async function handleLogin(formData) {
-    setError(false);
+    setAuthError(false);
     try {
       const { token } = await login(formData);
       saveToken(token);
@@ -35,7 +35,7 @@ export default function useAuth() {
       navigate('/movies');
     } catch (e) {
       console.log(e);
-      setError(true);
+      setAuthError(true);
     }
   }
 
@@ -43,8 +43,9 @@ export default function useAuth() {
     signOut,
     handleLogin,
     handleRegister,
-    error,
+    authError,
     isLoggedIn,
+    setAuthError,
     setIsLoggedIn,
   };
 }

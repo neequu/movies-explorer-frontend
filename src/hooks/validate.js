@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { EMAIL_REGEX } from 'utils/constants';
 
 export function useValidate() {
   const [values, setValues] = useState({});
@@ -23,7 +24,13 @@ export function useDisable() {
 
   const validateInputs = (error, formInputs) => {
     if (!error || !Object.entries(error).length) return;
-    const allValid = [...formInputs].every((input) => input.validity.valid);
+    const allValid = [...formInputs].every((input) => {
+      const isValid = input.validity.valid;
+      if (input.name === 'email') {
+        return EMAIL_REGEX.test(input.value) && isValid;
+      }
+      return isValid;
+    });
 
     setDisabled(!allValid);
   };

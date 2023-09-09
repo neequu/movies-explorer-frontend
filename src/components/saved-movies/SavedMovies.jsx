@@ -5,7 +5,7 @@ function SavedMovies({ moviesData, unsaveMovie }) {
     <>
       {moviesData?.map((m) => (
         <MoviesCard
-          key={m.movieId + m.nameEN}
+          key={m.movieId}
           movieData={m}
           unsaveMovie={unsaveMovie}
           savedMovies={moviesData}

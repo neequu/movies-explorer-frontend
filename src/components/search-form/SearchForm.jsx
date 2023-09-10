@@ -65,11 +65,7 @@ function SearchForm({
   }
   return (
     <section className='search'>
-      <form
-        className='search-form'
-        onSubmit={handleSubmit}
-        noValidate
-        disabled={loading}>
+      <form className='search-form' onSubmit={handleSubmit} noValidate>
         <fieldset className='search-form__fieldset'>
           <input
             onChange={handleInput}
@@ -80,6 +76,7 @@ function SearchForm({
             className='search-form__input'
             required
             name='query'
+            disabled={loading}
           />
           <button type='submit' className='search-form__button'>
             Поиск

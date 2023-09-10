@@ -7,8 +7,15 @@ export function useValidate() {
 
   const handleChange = (e) => {
     const t = e.target;
+
     setError({ ...error, [t.name]: t.validationMessage });
     setValues({ ...values, [t.name]: t.value });
+    if (t.name === 'email') {
+      const isValidEmail = EMAIL_REGEX.test(t.value);
+      return !isValidEmail
+        ? setError({ ...error, [t.name]: 'Необходимо ввести корректный email' })
+        : '';
+    }
   };
 
   const resetForm = () => {

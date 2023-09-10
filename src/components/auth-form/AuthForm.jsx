@@ -46,11 +46,7 @@ function AuthForm({ handleSubmit, responseError, setAuthError, loading }) {
   }, [error]);
 
   return (
-    <form
-      id='auth-form'
-      className='auth-form'
-      onSubmit={handleFormSubmit}
-      disabled={loading}>
+    <form id='auth-form' className='auth-form' onSubmit={handleFormSubmit}>
       <fieldset ref={formInputs} className='auth-form__container'>
         {pathname === '/signup' && (
           <AuthFormItem
@@ -64,6 +60,7 @@ function AuthForm({ handleSubmit, responseError, setAuthError, loading }) {
             minLength={2}
             autoComplete='username'
             placeholder='Имя'
+            disabled={loading}
           />
         )}
 
@@ -77,6 +74,7 @@ function AuthForm({ handleSubmit, responseError, setAuthError, loading }) {
           required
           autoComplete='email'
           placeholder='E-mail'
+          disabled={loading}
         />
         <AuthFormItem
           onChange={handleChange}
@@ -89,6 +87,7 @@ function AuthForm({ handleSubmit, responseError, setAuthError, loading }) {
           minLength={5}
           autoComplete='current-password'
           placeholder='Пароль'
+          disabled={loading}
         />
       </fieldset>
       <div className='auth-form__footer'>

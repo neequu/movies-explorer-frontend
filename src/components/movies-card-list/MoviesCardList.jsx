@@ -6,6 +6,11 @@ import {
   MOVIES_LIMIT_MD,
   MOVIES_LIMIT_SM,
   MOVIES_LIMIT_STEP_LG,
+  MOVIES_LIMIT_STEP_MD,
+  MOVIES_LIMIT_STEP_SM,
+  SCREEN_WIDTH_LG,
+  SCREEN_WIDTH_MD,
+  SCREEN_WIDTH_SM,
 } from 'utils/constants';
 import filterMovies from 'utils/movies';
 
@@ -32,16 +37,18 @@ function MoviesCardList({
   async function handleResize() {
     setWindowWidth(window.innerWidth);
 
-    if (windowWidth < 768) {
-      setLimitAddStep(1);
+    if (windowWidth < SCREEN_WIDTH_MD) {
+      setLimitAddStep(MOVIES_LIMIT_STEP_SM);
       setVisibleLimit(MOVIES_LIMIT_SM);
-    } else if (windowWidth >= 768 && windowWidth < 1280) {
-      setLimitAddStep(2);
+    } else if (windowWidth > SCREEN_WIDTH_SM && windowWidth < SCREEN_WIDTH_LG) {
+      setLimitAddStep(MOVIES_LIMIT_STEP_MD);
       setVisibleLimit(MOVIES_LIMIT_MD);
     } else {
       setLimitAddStep(MOVIES_LIMIT_STEP_LG);
       setVisibleLimit(MOVIES_LIMIT_LG);
     }
+
+    console.log(windowWidth);
 
     await new Promise((r) => setTimeout(r, 1000));
   }

@@ -64,10 +64,7 @@ function Profile({ signOut, setLoading, loading }) {
 
   return (
     <section className='profile'>
-      <form
-        className='profile__container'
-        onSubmit={handleSubmit}
-        disabled={loading}>
+      <form className='profile__container' onSubmit={handleSubmit}>
         <div>
           <h1 className='profile__heading'>
             Привет, {(!isEditing && values.name) || defaultName}!
@@ -80,7 +77,7 @@ function Profile({ signOut, setLoading, loading }) {
                 value={values.name ?? defaultName ?? ''}
                 type='text'
                 className='profile__input'
-                disabled={!isEditing}
+                disabled={!isEditing || loading}
                 placeholder='Имя'
                 minLength={2}
                 name='name'
@@ -94,7 +91,7 @@ function Profile({ signOut, setLoading, loading }) {
                 value={values.email ?? defaultEmail ?? ''}
                 type='email'
                 className='profile__input'
-                disabled={!isEditing}
+                disabled={!isEditing || loading}
                 placeholder='E-mail'
                 name='email'
                 required
@@ -118,7 +115,7 @@ function Profile({ signOut, setLoading, loading }) {
                 className={`${
                   disabled ? 'profile__button_disabled' : 'profile__button_save'
                 }`}
-                disabled={disabled}>
+                disabled={disabled || loading}>
                 Сохранить
               </button>
 

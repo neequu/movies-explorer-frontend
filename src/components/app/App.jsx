@@ -131,6 +131,7 @@ function App() {
     }
     try {
       const res = await fetchMovies();
+      console.log(res)
       localStorage.setItem('searched-movies', JSON.stringify(res));
       setMovies(res);
     } catch (e) {

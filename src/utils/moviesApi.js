@@ -4,6 +4,7 @@ import { checkResponse } from './utils';
 export async function fetchMovies() {
   try {
     const res = await fetch(MOVIES_API_URL);
+    console.log(res)
     return checkResponse(res);
   } catch (e) {
     console.log(e.message);

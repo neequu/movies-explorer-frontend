@@ -29,9 +29,7 @@ function SearchForm({
   useEffect(() => {
     if (pathname === '/movies') {
       setParams({ query: defaultInputValue, filtered: defaultFilterValue });
-      if (localStorage.getItem('searched-movies')) {
         getMovies();
-      }
     } else {
       reqFilter();
     }
